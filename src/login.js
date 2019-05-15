@@ -1,9 +1,7 @@
 import React from 'react'
-import './App.css'
-import {BrowserRouter, Route, Redirect, Link, Switch} from 'react-router-dom'
 import {Cookies} from 'react-cookie';
-import Main from './main.js'
 import API_HOST from './App'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 class Login extends React.Component {
 
@@ -60,19 +58,22 @@ handleSubmit(event) {
 
     render() {
         return (
-            <BrowserRouter>
+            <div>
+                <h1>Login Page</h1>
+            <div className="container">
             <form onSubmit={this.handleSubmit}>
-                <label>
-                    Username:
-                    <input type="text" value={this.state.username} onChange={this.handleUserChange}/>
-                </label>
-                <label>
-                    Password:
-                    <input type="password" value={this.state.password} onChange={this.handlePassChange}/>
-                </label>
-                <input type="submit" value="Submit"/>
+                <div className="form-group">
+                    <label htmlFor="usernameLogin">Username:</label>
+                    <input className="form-control" type="text" id="usernameLogin" value={this.state.username} onChange={this.handleUserChange}/>
+                </div>
+                <div class="form-group">
+                    <label htmlFor="passwordLogin">Password:</label>
+                    <input className="form-control" type="password" id="passwordLogin" value={this.state.password} onChange={this.handlePassChange}/>
+                </div>
+                <input className="btn btn-primary" type="submit" value="Submit"/>
             </form>
-            </BrowserRouter>
+            </div>
+            </div>
         )
     }
 }

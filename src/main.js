@@ -1,6 +1,7 @@
 import React from 'react'
 import API_HOST from './App'
-import {Cookies} from 'react-cookie';
+import {Cookies} from 'react-cookie'
+
 
 class Main extends React.Component {
 
@@ -60,7 +61,7 @@ class Main extends React.Component {
         let retArray =[]
         if(this.usersResult) {
             this.usersResult.map((elem, index) => {
-                retArray.push(<li key={index}>{JSON.stringify(elem)}</li>)
+                retArray.push(<li key={index}>{elem.username}</li>)
             })
         }
         return retArray
@@ -162,49 +163,74 @@ class Main extends React.Component {
     render() {
         return (
             <div>
-            <table>
-                <thead>
+                <h1>Main Page</h1>
+            <div className="container">
+            <table className="table">
+                <thead className="table-bordered">
                     <tr>
-                        <td>Users</td>
-                        <td>Entries</td>
+                        <td>
+                            <h2>
+                                Users
+                            </h2>
+                        </td>
+                        <td>
+                            <h2>
+                                Entries
+                            </h2>
+                        </td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className="table-bordered">
                 <tr>
-                    <th>
+                    <td>
                         <form id="userForm" onSubmit={this.addUserSubmit}>
-                            <input type="text" className="form-control" id="username" placeholder="Enter Username" onChange={this.addUserChange}/>
-                            <input type="text" className="form-control" id="userPassword" placeholder="Enter Password" onChange={this.addPasswordChange}/>
-                            <button type="submit" id="addUser">Add</button>
+                            <div className="form-group">
+                                <input type="text" className="form-control" id="addUsername" placeholder="Enter Username" onChange={this.addUserChange}/>
+                                <input type="text" className="form-control" id="addPassword" placeholder="Enter Password" onChange={this.addPasswordChange}/>
+                                <button className="btn btn-default" type="submit" id="addUser">Add</button>
+                            </div>
                         </form>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <form id="entryForm" onSubmit={this.addEntrySubmit}>
-                            <input type="text" className="form-control" id="entryBody" placeholder="Enter Json" onChange={this.addEntryChange}/>
-                            <button type="submit" id="addEntity">Add</button>
+                            <div className="form-group">
+                                <input type="text" className="form-control" id="entryBody" placeholder="Enter Json" onChange={this.addEntryChange}/>
+                                <button className="btn btn-default" type="submit" id="addEntity">Add</button>
+                            </div>
                         </form>
 
-                    </th>
+                    </td>
                 </tr>
                 <tr>
-                    <th>
+                    <td>
                         <form id="userDeleteForm" onSubmit={this.deleteUserSubmit}>
-                            <input type="text" className="form-control" id="usernameForDelete" placeholder="Enter Username" onChange={this.deleteUsersChange}/>
-                            <button type="submit" id="deleteUserButton">Delete</button>
+                            <div className="form-group">
+                                <input type="text" className="form-control" id="usernameForDelete" placeholder="Enter Username" onChange={this.deleteUsersChange}/>
+                                <button className="btn btn-default" type="submit" id="deleteUserButton">Delete</button>
+                            </div>
                         </form>
-                    </th>
-                    <th>
-                        <button type="button" id="deleteEntity" onClick={this.deleteEntriesSubmit}>Delete All</button>
-                    </th>
+                    </td>
+                    <td>
+                        <button type="button" className="btn btn-default" id="deleteEntity" onClick={this.deleteEntriesSubmit}>Delete All</button>
+                    </td>
                 </tr>
                 </tbody>
+                <tbody>
+                    <tr>
+                        <td>
+                            <ul>
+                                {this.renderUsersResult()}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                {this.renderEntriesResult()}
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
-                <ul>
-                    {this.renderUsersResult()}
-                </ul>
-                <ul>
-                    {this.renderEntriesResult()}
-                </ul>
+            </div>
             </div>
         )
     }
