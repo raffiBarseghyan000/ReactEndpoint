@@ -1,5 +1,5 @@
 import React from 'react'
-import API_HOST from './App'
+import API_HOST from '../index'
 import {Cookies} from 'react-cookie'
 
 
@@ -34,7 +34,8 @@ class Main extends React.Component {
         }
         const cookies = new Cookies()
         const token = cookies.get('access_token')
-        const result = await fetch(url, {
+        console.log(`http://${API_HOST}url`)
+        const result = await fetch(`http://${API_HOST}${url}`, {
             method: method,
             body: body,
             headers:{
@@ -48,12 +49,12 @@ class Main extends React.Component {
     }
 
     async getAllEntries() {
-        const result = await this.sendCall('GET', `http://${API_HOST}/entries`)
+        const result = await this.sendCall('GET', `/entries`)
         this.entriesResult = result.result
     }
 
     async getAllUsers() {
-        const result = await this.sendCall('GET', `http://${API_HOST}/users`)
+        const result = await this.sendCall('GET', `/users`)
         this.usersResult = result.result
     }
 
@@ -95,7 +96,7 @@ class Main extends React.Component {
 
     async addUserSubmit(event) {
         event.preventDefault()
-        const result = await this.sendCall('POST', `http://${API_HOST}/users`, {
+        const result = await this.sendCall('POST', `/users`, {
             username: this.addUsername,
             password: this.addPassword
         })
@@ -118,7 +119,7 @@ class Main extends React.Component {
             alert("Invalid JSON object")
             return
         }
-        const result = await this.sendCall('POST', `http://${API_HOST}/entries`, body)
+        const result = await this.sendCall('POST', `/entries`, body)
         if (result.success === false) {
             alert(result.message)
         }
@@ -130,7 +131,7 @@ class Main extends React.Component {
 
     async deleteUserSubmit(event) {
         event.preventDefault()
-        const result = await this.sendCall('DELETE', `http://${API_HOST}/users/${this.deleteUsername}`)
+        const result = await this.sendCall('DELETE', `/users/${this.deleteUsername}`)
         if (result.success === false) {
             alert(result.message)
         }
@@ -142,7 +143,7 @@ class Main extends React.Component {
 
     async deleteEntriesSubmit(event) {
         event.preventDefault()
-        const result = await this.sendCall('DELETE', `http://${API_HOST}/entries`)
+        const result = await this.sendCall('DELETE', `/entries`)
         if (result.success === false) {
             alert(result.message)
         }
