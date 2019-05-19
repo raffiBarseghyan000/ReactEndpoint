@@ -1,6 +1,8 @@
 import React from 'react'
 import {Cookies} from 'react-cookie';
-import API_HOST from './App'
+import API_HOST from '../index'
+import {LoginStates} from "../actions";
+import {Redirect} from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 class Login extends React.Component {
@@ -49,7 +51,7 @@ handleSubmit(event) {
         else {
             const cookies = new Cookies();
             cookies.set('access_token', JSON.parse(result).token)
-            this.props.renderMain()
+            this.props.toggleLoginState(LoginStates.LOGGED_IN)
         }
     }).catch((e)=> {
         alert(e)

@@ -11,8 +11,6 @@ class Main extends React.Component {
         this.addPassword = ''
         this.deleteUsername = ''
         this.addEntry = ''
-        this.usersResult = []
-        this.entriesResult = []
         this.getAllEntries = this.getAllEntries.bind(this)
         this.getAllUsers = this.getAllUsers.bind(this)
         this.addUserChange = this.addUserChange.bind(this)

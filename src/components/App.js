@@ -1,19 +1,14 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
-import Login from './login'
+import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom"
+import Login from '../containers/login'
 import Main from './main'
-
-require('dotenv').config({path: './env/.env'});
+import {LoginStates} from "../actions"
+import NotFound from './notFound'
 
 class App extends React.Component {
 
-    constructor({isLoggedIn}) {
-        super({isLoggedIn});
-    }
-
     isLoggedIn() {
-        return this.props.isLoggedIn
+        return this.props.isLoggedIn === LoginStates.LOGGED_IN
     }
 
     render() {
@@ -22,12 +17,13 @@ class App extends React.Component {
             <Switch>
                 {console.log(this.props.isLoggedIn)}
                 <Route path='/login' component={Login} />
-                <Route render={() => (
-                    this.isLoggedIn()
-                        ? <Main />
-                        : <Redirect to='/login' />
-                    )
-                } />
+                <Route path='/main' component={Main} />
+                {/*<Route render={() => (*/}
+                    {/*this.isLoggedIn()*/}
+                        {/*? <Redirect to='/main' />*/}
+                        {/*: <Redirect to='/login' />*/}
+                    {/*)*/}
+                {/*} />*/}
             </Switch>
         </BrowserRouter>
         )
@@ -35,8 +31,4 @@ class App extends React.Component {
 
 }
 
-const mapStateToProps = (state)=> ({
-    isLoggedIn: state.clientStatus
-})
-
-export default connect(mapStateToProps)(App)
+export default App
