@@ -1,10 +1,7 @@
 const displayedUsers = (state = [], action)=> {
     switch(action.type) {
-        case 'ADD_USER':
-            return ([
-                ...state,
-                action.username
-            ])
+        case 'REFRESH_USERS':
+            return action.updatedUsers
         default:
             return state
     }

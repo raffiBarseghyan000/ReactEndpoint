@@ -1,8 +1,9 @@
 import React from 'react'
-import {Cookies} from 'react-cookie';
+import {Cookies} from 'react-cookie'
 import API_HOST from '../index'
-import {LoginStates} from "../actions";
+import {LoginStates} from "../actions"
 import {Redirect} from 'react-router-dom'
+import history from '../history'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 class Login extends React.Component {
@@ -42,8 +43,8 @@ handlePassChange(event) {
     this.setState({password: event.target.value})
 }
 
-handleSubmit(event) {
-    event.preventDefault()
+    handleSubmit(event) {
+    event.preventDefault();
     return this.loginCall(this.state.username, this.state.password).then((result)=> {
         if (JSON.parse(result).success === false) {
             alert(JSON.parse(result).message)
@@ -52,6 +53,7 @@ handleSubmit(event) {
             const cookies = new Cookies();
             cookies.set('access_token', JSON.parse(result).token)
             this.props.toggleLoginState(LoginStates.LOGGED_IN)
+            history.push('/main')
         }
     }).catch((e)=> {
         alert(e)

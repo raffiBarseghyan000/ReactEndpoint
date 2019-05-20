@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import clientStatus from './clientStatus'
-import displayUsers from './displayedUsers'
-import displayEntries from './displayEntries'
+import displayedUsers from './displayedUsers'
+import displayedEntries from './displayEntries'
 
 export default combineReducers({
     clientStatus,
-    displayUsers,
-    displayEntries
+    displayedUsers,
+    displayedEntries
 })

@@ -5,9 +5,11 @@
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
     "dotenv": "^8.0.0",
+    "history": "^4.9.0",
     "react": "^16.8.6",
     "react-cookie": "^4.0.0",
     "react-dom": "^16.8.6",
+    "react-paginate": "^6.3.0",
     "react-redux": "^7.0.3",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0",
