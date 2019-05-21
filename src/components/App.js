@@ -4,23 +4,32 @@ import Login from '../containers/login'
 import Main from './main'
 import {LoginStates} from "../actions"
 import history from '../history'
-import NotFound from './notFound'
 
 class App extends React.Component {
 
     isLoggedIn() {
-        return this.props.isLoggedIn === LoginStates.LOGGED_IN
+        return localStorage.hasOwnProperty("isLoggedIn") && localStorage.getItem("isLoggedIn") === LoginStates.LOGGED_IN
     }
 
     render() {
-        const redirectComponent = this.isLoggedIn() ? '/main' : '/login'
+        let handleUsers
+        if(this.isLoggedIn()) {
+            handleUsers = <Switch>
+                <Route path='/main' component={Main}/>
+                <Redirect to="/main" />
+            </Switch>
+        }
+        else {
+            handleUsers = <Switch>
+                <Redirect to="/login"/>
+            </Switch>
+        }
+
         return (
         <Router history={history}>
             <Switch>
-                {console.log(this.props.isLoggedIn)}
                 <Route path='/login' component={Login} />
-                <Route path='/main' component={Main} />
-                <Redirect to={redirectComponent} />
+                {handleUsers}
             </Switch>
         </Router>
         )

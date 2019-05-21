@@ -7,8 +7,7 @@ const mapStateToProps = (state)=> ({
 })
 
 const mapDispatchToProps = (dispatch)=> ({
-    updateUserList: (newUserList)=> dispatch(refreshUsersList(newUserList)),
-    updateUserCount: (newUserCount)=> dispatch(refreshUsersCount(newUserCount))
+    updateUserList: (newUserList)=> dispatch(refreshUsersList(newUserList))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserList)

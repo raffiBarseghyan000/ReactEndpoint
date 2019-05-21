@@ -8,11 +8,6 @@ export const refreshUsersList = (updatedUsersList)=> ({
     updatedUsersList
 })
 
-export const refreshUsersCount = (updatedUserCount)=> ({
-    type: 'REFRESH_USERS_COUNT',
-    updatedUserCount
-})
-
 export const LoginStates = {
     LOGGED_IN: 'LOGGED_IN',
     LOGGED_OUT: 'LOGGED_OUT'

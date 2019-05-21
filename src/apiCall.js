@@ -1,5 +1,5 @@
-import {Cookies} from "react-cookie";
-import API_HOST from "./index";
+import {Cookies} from "react-cookie"
+const API_HOST = "localhost:9999"
 
 async function makeApiCall(method, url, body) {
     if (!body) {

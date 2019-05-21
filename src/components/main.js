@@ -2,7 +2,7 @@ import React from 'react'
 import API_HOST from '../index'
 import {Cookies} from 'react-cookie'
 import Header from "./header";
-import Users from "./users";
+import Users from "../containers/users";
 import Footer from "./footer";
 
 
