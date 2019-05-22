@@ -52,8 +52,9 @@ class Login extends React.Component {
             if (result.success === false) {
                 alert(result.message)
             } else {
-                // const cookies = new Cookies();
+                // const cookies = new Cookies()
                 // cookies.set('access_token', JSON.parse(result).token)
+                localStorage.setItem("access_token", result.token)
                 localStorage.setItem("isLoggedIn", LoginStates.LOGGED_IN)
                 history.push('/main')
             }

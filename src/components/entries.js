@@ -1,6 +1,6 @@
 import React from 'react'
 
-class entries extends React.Component {
+class Entries extends React.Component {
     constructor(props) {
         super(props)
         this.addEntry = ''
@@ -66,3 +66,5 @@ class entries extends React.Component {
     }
 
 }
+
+export default Entries

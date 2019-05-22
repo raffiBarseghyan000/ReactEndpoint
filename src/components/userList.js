@@ -2,7 +2,6 @@ import React from 'react'
 import ReactPaginate from 'react-paginate'
 import makeApiCall from '../apiCall'
 import PropTypes from 'prop-types'
-import {refreshUsersList} from "../actions";
 
 class UserList extends React.Component {
 
@@ -14,11 +13,21 @@ class UserList extends React.Component {
         this.handlePageClick = this.handlePageClick.bind(this)
     }
 
+    async deleteUser(username) {
+        await makeApiCall('DELETE', `/users/${username}`)
+    }
+
     renderUserList() {
-        let retArray = []
+        const retArray = []
         if (this.props.userList) {
             this.props.userList.map((elem) => {
-                retArray.push(<li key={elem.username}>{elem.username}</li>)
+                retArray.push(<li key={elem.username}>
+                    <span>{elem.username}</span>
+                    <button onClick={() => {
+                        this.deleteUser(elem.username)
+                    }}>delete
+                    </button>
+                </li>)
             })
         }
         return retArray
@@ -26,17 +35,17 @@ class UserList extends React.Component {
 
     async refreshUserList(offset, limit) {
         const response = await makeApiCall('GET', `/users?offset=${offset}&limit=${limit}`)
-        if(response.success === false) {
+        if (response.success === false) {
             console.log(response.message)
-        }
-        else {
+        } else {
             this.props.updateUserList(response.result.values)
             this.setState({userCount: response.result.count})
         }
     }
 
     componentDidMount() {
-        this.refreshUserList(0, this.props.showPerPage).then(()=> {})
+        this.refreshUserList(0, this.props.showPerPage).then(() => {
+        })
     }
 
     handlePageClick(data) {
