@@ -1,5 +1,6 @@
 import React from 'react'
 import {SelectTabStates} from "../actions";
+import history from "../history";
 
 class SideBar extends React.Component {
 
@@ -26,10 +27,8 @@ class SideBar extends React.Component {
     }
 
     handleTabChange(componentToDisplay) {
-        this.props.changeSelectedTab(componentToDisplay)
+        history.push(`${this.props.parentPath}/${componentToDisplay}`)
     }
-
-
 
     render() {
         let renderElem

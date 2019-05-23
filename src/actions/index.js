@@ -9,6 +9,6 @@ export const LoginStates = {
 }
 
 export const SelectTabStates = {
-    USERS: 'USERS',
-    ENTRIES: 'ENTRIES'
+    USERS: 'users',
+    ENTRIES: 'entries'
 }

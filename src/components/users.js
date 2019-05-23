@@ -71,7 +71,6 @@ class Users extends React.Component {
                     </div>
                 </form>
                 </div>
-                <UserList showPerPage={3}/>
             </div>
         )
     }

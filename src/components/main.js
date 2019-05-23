@@ -2,13 +2,14 @@ import React from 'react'
 import API_HOST from '../appHost'
 import {Cookies} from 'react-cookie'
 import Header from "./header"
-import Users from "./users"
+import UserList from "../containers/userList"
 import Footer from "./footer"
 import Sidebar from './sideBar'
-import {SelectTabStates} from "../actions"
+import {LoginStates, SelectTabStates} from "../actions"
 import Entries from './entries'
 import history from '../history'
 import {Route, Router, Switch} from "react-router-dom"
+import User from './users'
 import NotFound from "./notFound"
 
 
@@ -247,15 +248,28 @@ import NotFound from "./notFound"
 
 class Main extends React.Component {
 
+    constructor(props) {
+        super(props)
+        if (this.props.location.pathname === `${this.props.match.url}/${SelectTabStates.ENTRIES}`) {
+            history.push(`${this.props.match.url}/${SelectTabStates.ENTRIES}`)
+        }
+        else {
+            history.push(`${this.props.match.url}/${SelectTabStates.USERS}`)
+        }
+    }
+
+
+
     render() {
         return (
             <div>
                 <Header/>
-                <Sidebar/>
+                <Sidebar parentPath={this.props.match.url} />
                 <Router history={history}>
                     <Switch>
-                        <Route path={`${this.props.match.url}/users`} component={Users}/>
+                        <Route exact path={`${this.props.match.url}/users`} render={()=> <UserList showPerPage='3' parentPath={`${this.props.match.url}/users`}/>}/>
                         <Route path={`${this.props.match.url}/entries`} component={Entries}/>
+                        <Route path={`${this.props.match.url}/users/addNew`} component={User} />
                         <Route component={NotFound}/>
                     </Switch>
                 </Router>
