@@ -5,15 +5,15 @@ import history from '../history'
 import {deleteConfirmation} from './popUp'
 import PropTypes from 'prop-types'
 
-class UserList extends React.Component {
+class EntryList extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            userCount: 0
+            entryCount: 0
         }
         this.handlePageClick = this.handlePageClick.bind(this)
-        this.addNewUser = this.addNewUser.bind(this)
+        this.addNewEntry = this.addNewEntry.bind(this)
     }
 
     renderList(elem) {
@@ -59,7 +59,7 @@ class UserList extends React.Component {
         if (response.success === false) {
             console.log(response.message)
         } else {
-            this.props.updateUserList(response.result.values)
+            // this.props.updateUserList(response.result.values)
             this.setState({userCount: response.result.count})
         }
     }
@@ -75,21 +75,17 @@ class UserList extends React.Component {
         this.refreshUserList(offset, this.props.showPerPage)
     }
 
-    addNewUser() {
+    addNewEntry() {
         history.push(`${this.props.parentPath}/addNew`)
-    }
-
-    getPaginationStyle() {
-
     }
 
     render() {
         return (
             <div>
-                <button onClick={this.addNewUser}>Add new user</button>
-                <table className="table table-bordered">
+                <button onClick={this.addNewEntry}>Add new entry</button>
+                <table>
                     <tbody>
-                    {this.renderUserList()}
+                    {/*{this.renderEntryList()}*/}
                     </tbody>
                 </table>
                 <ReactPaginate
@@ -97,7 +93,6 @@ class UserList extends React.Component {
                     pageRangeDisplayed={3}
                     marginPagesDisplayed={1}
                     onPageChange={this.handlePageClick}
-                    style={this.getPaginationStyle}
                 />
             </div>
         )
@@ -105,8 +100,4 @@ class UserList extends React.Component {
 
 }
 
-UserList.propTypes = {
-    userList: PropTypes.array
-}
-
-export default UserList
+export default EntryList

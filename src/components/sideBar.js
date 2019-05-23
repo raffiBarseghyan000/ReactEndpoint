@@ -34,11 +34,11 @@ class SideBar extends React.Component {
         let renderElem
         if (this.state.expanded) {
             renderElem = <div>
-                <ul>
-                    <li>
+                <ul className="list-inline p-2">
+                    <li className="list-inline-item ">
                         <button onClick={this.handleTabChangeForUser}>Users</button>
                     </li>
-                    <li>
+                    <li className="list-inline-item ">
                         <button onClick={this.handleTabChangeForEntries}>Entries</button>
                     </li>
                 </ul>
@@ -48,8 +48,8 @@ class SideBar extends React.Component {
         }
 
         return (
-            <div>
-                <button onClick={this.handleExpand}>...</button>
+            <div className="d-flex flex-row">
+                <button className="p-3" onClick={this.handleExpand}>...</button>
                 {renderElem}
             </div>
         )

@@ -10,6 +10,8 @@ import Entries from './entries'
 import history from '../history'
 import {Route, Router, Switch} from "react-router-dom"
 import User from './users'
+import editUser from './editUser'
+import EntryList from './entryList'
 import NotFound from "./notFound"
 
 
@@ -262,14 +264,15 @@ class Main extends React.Component {
 
     render() {
         return (
-            <div>
-                <Header/>
+            <div className="container">
+                <Header />
                 <Sidebar parentPath={this.props.match.url} />
                 <Router history={history}>
                     <Switch>
                         <Route exact path={`${this.props.match.url}/users`} render={()=> <UserList showPerPage='3' parentPath={`${this.props.match.url}/users`}/>}/>
-                        <Route path={`${this.props.match.url}/entries`} component={Entries}/>
-                        <Route path={`${this.props.match.url}/users/addNew`} component={User} />
+                        <Route path={`${this.props.match.url}/entries`} component={EntryList}/>
+                        <Route path={`${this.props.match.url}/users/addNew`} render={()=> <User parentPath={`${this.props.match.url}/users`}/>} />
+                        <Route path={`${this.props.match.url}/users/edit`} component={editUser} />
                         <Route component={NotFound}/>
                     </Switch>
                 </Router>

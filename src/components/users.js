@@ -1,6 +1,6 @@
 import React from 'react'
-import UserList from '../containers/userList'
 import makeApiCall from '../apiCall'
+import history from '../history'
 
 class Users extends React.Component {
 
@@ -46,6 +46,9 @@ class Users extends React.Component {
             lastName: this.state.addLastName
         })
         alert(result.message)
+        if(result.success){
+            history.push(`${this.props.parentPath}`)
+        }
     }
 
     render() {

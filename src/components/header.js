@@ -17,18 +17,19 @@ class Header extends React.Component {
             localStorage.removeItem("access_token")
             localStorage.setItem("isLoggedIn", LoginStates.LOGGED_OUT)
             history.push('/login')
-        }
-        catch (err) {
+        } catch (err) {
             alert(err)
         }
     }
 
     render() {
-        return(
-            <div>
-                <button onClick={this.handleClick}>
-                    Logout
-                </button>
+        return (
+            <div className="navbar bg-primary">
+                <span>
+                    <button className="float-sm-right col-lg-1" onClick={this.handleClick}>
+                        Logout
+                    </button>
+                </span>
             </div>
         )
 
