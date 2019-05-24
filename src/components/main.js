@@ -6,11 +6,11 @@ import UserList from "../containers/userList"
 import Footer from "./footer"
 import Sidebar from './sideBar'
 import {LoginStates, SelectTabStates} from "../actions"
-import Entries from './entries'
+import Entry from './entries'
 import history from '../history'
 import {Route, Router, Switch} from "react-router-dom"
 import User from './users'
-import editUser from './editUser'
+import EditUser from './editUser'
 import EntryList from '../containers/entriesList'
 import NotFound from "./notFound"
 
@@ -267,15 +267,14 @@ class Main extends React.Component {
             <div className="container">
                 <Header />
                 <Sidebar parentPath={this.props.match.url} />
-                <Router history={history}>
                     <Switch>
-                        <Route exact path={`${this.props.match.url}/users`} render={()=> <UserList showPerPage='3' parentPath={`${this.props.match.url}/users`}/>}/>
-                        <Route path={`${this.props.match.url}/entries`} render={()=> <EntryList showPerPage='3'/>} />
+                        <Route exact path={`${this.props.match.url}/users/`} render={()=> <UserList showPerPage='3' parentPath={`${this.props.match.url}/users`}/>}/>
+                        <Route exact path={`${this.props.match.url}/entries/`} render={()=> <EntryList showPerPage='3' parentPath={`${this.props.match.url}/entries`}/>} />
                         <Route path={`${this.props.match.url}/users/addNew`} render={()=> <User parentPath={`${this.props.match.url}/users`}/>} />
-                        <Route path={`${this.props.match.url}/users/edit`} component={editUser} />
+                        <Route path={`${this.props.match.url}/entries/addNew`} render={()=> <Entry parentPath={`${this.props.match.url}/entries`}/>} />
+                        <Route path={`${this.props.match.url}/users/edit`} component={EditUser} />
                         <Route component={NotFound}/>
                     </Switch>
-                </Router>
                 <Footer/>
             </div>
         )

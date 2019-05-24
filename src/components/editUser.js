@@ -1,5 +1,6 @@
 import React from 'react'
 import makeApiCall from '../apiCall'
+import history from '../history'
 
 class EditUser extends React.Component {
     constructor(props) {
@@ -11,7 +12,7 @@ class EditUser extends React.Component {
 
 
         this.state = {
-            username: null,
+            user: null,
             addPassword: '',
             addFirstName: '',
             addLastName: ''
@@ -31,10 +32,6 @@ class EditUser extends React.Component {
         })
     }
 
-    addUserChange(event) {
-        this.state.addUsername = event.target.value
-    }
-
     addPasswordChange(event) {
         this.state.addPassword = event.target.value
     }
@@ -49,20 +46,24 @@ class EditUser extends React.Component {
 
     async addUserSubmit(event) {
         event.preventDefault()
-        const result = await makeApiCall('PUT', `/users/`, {
-            username: this.state.addUsername,
+        const result = await makeApiCall('PUT', `/users/${this.state.user.username}`, {
             password: this.state.addPassword,
             firstName: this.state.addFirstName,
             lastName: this.state.addLastName
         })
         alert(result.message)
+        if (result.success) {
+            let a = `${this.props.match.url}/${this.state.user.username}`
+            let b = this.props.location.pathname
+            history.push('/users')
+        }
     }
 
     render() {
         let renderValue
         if (this.state.user) {
             renderValue = <div>
-                <h2>Users</h2>
+                <h2>{this.state.user.username}</h2>
                 <div className='container'>
                     <form id="userForm" onSubmit={this.addUserSubmit}>
                         <div className="form-group">

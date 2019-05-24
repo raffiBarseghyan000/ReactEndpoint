@@ -26,7 +26,7 @@ class Header extends React.Component {
         return (
             <div className="navbar bg-primary">
                 <span>
-                    <button className="float-sm-right col-lg-1" onClick={this.handleClick}>
+                    <button className="float-sm-right col-lg-1 btn btn-primary" onClick={this.handleClick}>
                         Logout
                     </button>
                 </span>

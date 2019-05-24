@@ -1,0 +1,17 @@
+.pagination_parent>ul>li {
+    display: inline-block;
+    margin: 0 3px 0 3px;
+    color: black;
+    border: 2px solid #aeaf8b;
+    background-color: #e7e7e7;
+    padding: 0 7px 0 7px;
+
+}
+
+.pagination_parent>ul>.selected {
+    background-color: #756ce7;
+}
+
+.pagination_parent>ul {
+    display: inline-block;
+}

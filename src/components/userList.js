@@ -2,8 +2,9 @@ import React from 'react'
 import ReactPaginate from 'react-paginate'
 import makeApiCall from '../apiCall'
 import history from '../history'
-import {deleteConfirmation} from './popUp'
+import {deleteConfirmationUser} from './popUp'
 import PropTypes from 'prop-types'
+import paginationCss from '../styles/pagination.css'
 
 class UserList extends React.Component {
 
@@ -43,10 +44,10 @@ class UserList extends React.Component {
                         </ul>
                     </td>
                     <td>
-                        {deleteConfirmation(elem.username)}
+                        {deleteConfirmationUser(elem.username)}
                     </td>
                     <td>
-                        <button onClick={()=> this.editUser(elem.username)}>Edit</button>
+                        <button className="btn btn-block" onClick={()=> this.editUser(elem.username)}>Edit</button>
                     </td>
                 </tr>)
             })
@@ -79,17 +80,14 @@ class UserList extends React.Component {
         history.push(`${this.props.parentPath}/addNew`)
     }
 
-    getPaginationStyle() {
-
-    }
-
     render() {
         return (
-            <div>
-                <button onClick={this.addNewUser}>Add new user</button>
+            <div className="pagination_parent">
+                <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewUser}>Add new user</button>
                 <table className="table table-bordered">
+                    <thead>Users</thead>
                     <tbody>
-                    {this.renderUserList()}
+                        {this.renderUserList()}
                     </tbody>
                 </table>
                 <ReactPaginate
@@ -97,16 +95,11 @@ class UserList extends React.Component {
                     pageRangeDisplayed={3}
                     marginPagesDisplayed={1}
                     onPageChange={this.handlePageClick}
-                    style={this.getPaginationStyle}
                 />
             </div>
         )
     }
 
-}
-
-UserList.propTypes = {
-    userList: PropTypes.array
 }
 
 export default UserList

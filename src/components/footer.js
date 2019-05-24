@@ -3,7 +3,9 @@ import React from 'react'
 class Footer extends React.Component {
 
     render() {
-        return(<div />)
+        return(<div className="navbar bg-primary">
+            Copyright Flux Technologies
+        </div>)
 
     }
 
