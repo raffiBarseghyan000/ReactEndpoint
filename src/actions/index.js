@@ -3,6 +3,11 @@ export const refreshUsersList = (updatedUsersList)=> ({
     updatedUsersList
 })
 
+export const refreshEntryList = (updatedEntryList)=> ({
+    type: 'REFRESH_ENTRY_LIST',
+    updatedEntryList
+})
+
 export const LoginStates = {
     LOGGED_IN: 'LOGGED_IN',
     LOGGED_OUT: 'LOGGED_OUT'

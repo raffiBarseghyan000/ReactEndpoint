@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import UserList from '../components/userList'
-import {refreshUsersList, refreshUsersCount} from "../actions";
+import {refreshUsersList} from "../actions";
 
 const mapStateToProps = (state)=> ({
     userList: state.displayedUsers

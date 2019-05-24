@@ -16,37 +16,17 @@ class EntryList extends React.Component {
         this.addNewEntry = this.addNewEntry.bind(this)
     }
 
-    renderList(elem) {
+    renderEntryList() {
         const retArray = []
-        Object.keys(elem).map((elemKey) => {
-            retArray.push(
-                <li key={elemKey}>
-                    {elemKey}: {elem[elemKey]}
-                </li>
-            )
-        })
-        return retArray
-    }
-
-    editUser(username) {
-        history.push(`${this.props.parentPath}/edit/${username}`)
-    }
-
-    renderUserList() {
-        const retArray = []
-        if (this.props.userList) {
-            this.props.userList.map((elem) => {
+        if (this.props.entryList) {
+            this.props.entryList.map((elem) => {
                 retArray.push(<tr>
                     <td>
                         <ul>
-                            {this.renderList(elem)}
+                            <li>
+                                {JSON.stringify(elem)}
+                            </li>
                         </ul>
-                    </td>
-                    <td>
-                        {deleteConfirmation(elem.username)}
-                    </td>
-                    <td>
-                        <button onClick={()=> this.editUser(elem.username)}>Edit</button>
                     </td>
                 </tr>)
             })
@@ -54,25 +34,25 @@ class EntryList extends React.Component {
         return retArray
     }
 
-    async refreshUserList(offset, limit) {
-        const response = await makeApiCall('GET', `/users?offset=${offset}&limit=${limit}`)
+    async refreshEntryList(offset, limit) {
+        const response = await makeApiCall('GET', `/entries?offset=${offset}&limit=${limit}`)
         if (response.success === false) {
             console.log(response.message)
         } else {
-            // this.props.updateUserList(response.result.values)
-            this.setState({userCount: response.result.count})
+            this.props.updateEntryList(response.result.values)
+            this.setState({entryCount: response.result.count})
         }
     }
 
     componentDidMount() {
-        this.refreshUserList(0, this.props.showPerPage).then(() => {
+        this.refreshEntryList(0, this.props.showPerPage).then(() => {
         })
     }
 
     handlePageClick(data) {
         let selected = data.selected
         let offset = Math.ceil(selected * this.props.showPerPage)
-        this.refreshUserList(offset, this.props.showPerPage)
+        this.refreshEntryList(offset, this.props.showPerPage)
     }
 
     addNewEntry() {
@@ -85,11 +65,11 @@ class EntryList extends React.Component {
                 <button onClick={this.addNewEntry}>Add new entry</button>
                 <table>
                     <tbody>
-                    {/*{this.renderEntryList()}*/}
+                    {this.renderEntryList()}
                     </tbody>
                 </table>
                 <ReactPaginate
-                    pageCount={Math.ceil(this.state.userCount / this.props.showPerPage)}
+                    pageCount={Math.ceil(this.state.entryCount / this.props.showPerPage)}
                     pageRangeDisplayed={3}
                     marginPagesDisplayed={1}
                     onPageChange={this.handlePageClick}
