@@ -3,8 +3,7 @@ import ReactPaginate from 'react-paginate'
 import makeApiCall from '../apiCall'
 import history from '../history'
 import {deleteConfirmationUser} from './popUp'
-import PropTypes from 'prop-types'
-import paginationCss from '../styles/pagination.css'
+import '../styles/pagination.css'
 
 class UserList extends React.Component {
 
@@ -20,7 +19,7 @@ class UserList extends React.Component {
     renderList(elem) {
         const retArray = []
         Object.keys(elem).map((elemKey) => {
-            retArray.push(
+            return retArray.push(
                 <li key={elemKey}>
                     {elemKey}: {elem[elemKey]}
                 </li>
@@ -37,7 +36,7 @@ class UserList extends React.Component {
         const retArray = []
         if (this.props.userList) {
             this.props.userList.map((elem) => {
-                retArray.push(<tr>
+                return retArray.push(<tr key={elem.username}>
                     <td>
                         <ul>
                             {this.renderList(elem)}
@@ -47,7 +46,7 @@ class UserList extends React.Component {
                         {deleteConfirmationUser(elem.username)}
                     </td>
                     <td>
-                        <button className="btn btn-block" onClick={()=> this.editUser(elem.username)}>Edit</button>
+                        <button className="btn btn-block" onClick={() => this.editUser(elem.username)}>Edit</button>
                     </td>
                 </tr>)
             })
@@ -83,11 +82,18 @@ class UserList extends React.Component {
     render() {
         return (
             <div className="pagination_parent">
-                <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewUser}>Add new user</button>
+                <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewUser}>Add new user
+                </button>
                 <table className="table table-bordered">
-                    <thead>Users</thead>
+                    <thead>
+                    <tr>
+                        <td>
+                            <h3>Users</h3>
+                        </td>
+                    </tr>
+                    </thead>
                     <tbody>
-                        {this.renderUserList()}
+                    {this.renderUserList()}
                     </tbody>
                 </table>
                 <ReactPaginate

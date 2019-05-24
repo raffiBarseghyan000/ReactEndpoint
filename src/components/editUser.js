@@ -9,13 +9,11 @@ class EditUser extends React.Component {
         this.addFirstNameChange = this.addFirstNameChange.bind(this)
         this.addLastNameChange = this.addLastNameChange.bind(this)
         this.addPasswordChange = this.addPasswordChange.bind(this)
-
-
+        this.addPassword = ''
+        this.addFirstName = ''
+        this.addLastName = ''
         this.state = {
-            user: null,
-            addPassword: '',
-            addFirstName: '',
-            addLastName: ''
+            user: null
         }
     }
 
@@ -33,28 +31,26 @@ class EditUser extends React.Component {
     }
 
     addPasswordChange(event) {
-        this.state.addPassword = event.target.value
+        this.addPassword = event.target.value
     }
 
     addFirstNameChange(event) {
-        this.state.addFirstName = event.target.value
+        this.addFirstName = event.target.value
     }
 
     addLastNameChange(event) {
-        this.state.addLastName = event.target.value
+        this.addLastName = event.target.value
     }
 
     async addUserSubmit(event) {
         event.preventDefault()
         const result = await makeApiCall('PUT', `/users/${this.state.user.username}`, {
-            password: this.state.addPassword,
-            firstName: this.state.addFirstName,
-            lastName: this.state.addLastName
+            password: this.addPassword,
+            firstName: this.addFirstName,
+            lastName: this.addLastName
         })
         alert(result.message)
         if (result.success) {
-            let a = `${this.props.match.url}/${this.state.user.username}`
-            let b = this.props.location.pathname
             history.push('/users')
         }
     }

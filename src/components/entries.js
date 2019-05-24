@@ -5,23 +5,21 @@ import history from "../history";
 class Entries extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            addEntry: ''
-        }
+        this.addEntry = ''
 
         this.addEntrySubmit = this.addEntrySubmit.bind(this)
         this.addEntryChange = this.addEntryChange.bind(this)
     }
 
     addEntryChange(event) {
-        this.state.addEntry = event.target.value
+        this.addEntry = event.target.value
     }
 
     async addEntrySubmit(event) {
         event.preventDefault()
         let value
         try {
-            value = JSON.parse(this.state.addEntry)
+            value = JSON.parse(this.addEntry)
         }
         catch {
             alert("invalid JSON object")

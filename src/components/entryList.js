@@ -19,8 +19,8 @@ class EntryList extends React.Component {
     renderEntryList() {
         const retArray = []
         if (this.props.entryList) {
-            this.props.entryList.map((elem) => {
-                retArray.push(<tr>
+            this.props.entryList.map((elem, index) => {
+                return retArray.push(<tr key={index}>
                     <td>
                         <ul>
                             <li>
@@ -37,7 +37,7 @@ class EntryList extends React.Component {
     async refreshEntryList(offset, limit) {
         const response = await makeApiCall('GET', `/entries?offset=${offset}&limit=${limit}`)
         if (response.success === false) {
-            console.log(response.message)
+            alert(response.message)
         } else {
             this.props.updateEntryList(response.result.values)
             this.setState({entryCount: response.result.count})
@@ -72,11 +72,17 @@ class EntryList extends React.Component {
     render() {
 
         let renderValue
-        if(this.props.entryList.length !== 0) {
+        if (this.props.entryList.length !== 0) {
             renderValue = <div className="pagination_parent">
                 {deleteConfirmationEntry()}
                 <table className="table table-bordered">
-                    <thead>Entries</thead>
+                    <thead>
+                    <tr>
+                        <td>
+                            <h3>Entries</h3>
+                        </td>
+                    </tr>
+                    </thead>
                     <tbody>
                     {this.renderEntryList()}
                     </tbody>
@@ -88,14 +94,14 @@ class EntryList extends React.Component {
                     onPageChange={this.handlePageClick}
                 />
             </div>
-        }
-        else {
+        } else {
             renderValue = <div>No entries to display</div>
         }
 
         return (
             <div>
-                <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewEntry}>Add new entry</button>
+                <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewEntry}>Add new entry
+                </button>
                 {renderValue}
             </div>
         )

@@ -1,4 +1,3 @@
-import {Cookies} from "react-cookie"
 import {LoginStates} from "./actions"
 import history from './history'
 import API_HOST from './appHost'
@@ -12,7 +11,6 @@ async function makeApiCall(method, url, body) {
     // const cookies = new Cookies()
     // const token = cookies.get('access_token')
     const token = localStorage.getItem("access_token")
-    console.log(`${API_HOST}url`)
     const result = await fetch(`${API_HOST}${url}`, {
         method: method,
         body: body,

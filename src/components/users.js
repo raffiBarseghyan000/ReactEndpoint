@@ -6,12 +6,10 @@ class Users extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-            addUsername: '',
-            addPassword: '',
-            addFirstName: '',
-            addLastName: ''
-        }
+            this.addUsername = ''
+            this.addPassword = ''
+            this.addFirstName = ''
+            this.addLastName = ''
 
         this.addUserSubmit = this.addUserSubmit.bind(this)
         this.addUserChange = this.addUserChange.bind(this)
@@ -22,28 +20,28 @@ class Users extends React.Component {
     }
 
     addUserChange(event) {
-        this.state.addUsername = event.target.value
+        this.addUsername = event.target.value
     }
 
     addPasswordChange(event) {
-        this.state.addPassword = event.target.value
+        this.addPassword = event.target.value
     }
 
     addFirstNameChange(event) {
-        this.state.addFirstName = event.target.value
+        this.addFirstName = event.target.value
     }
 
     addLastNameChange(event) {
-        this.state.addLastName = event.target.value
+        this.addLastName = event.target.value
     }
 
     async addUserSubmit(event) {
         event.preventDefault()
         const result = await makeApiCall('POST', `/users`, {
-            username: this.state.addUsername,
-            password: this.state.addPassword,
-            firstName: this.state.addFirstName,
-            lastName: this.state.addLastName
+            username: this.addUsername,
+            password: this.addPassword,
+            firstName: this.addFirstName,
+            lastName: this.addLastName
         })
         alert(result.message)
         if(result.success){

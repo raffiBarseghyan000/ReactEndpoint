@@ -1,8 +1,5 @@
 import React from 'react'
-import {Cookies} from 'react-cookie'
-import API_HOST from '../index'
 import {LoginStates} from "../actions"
-import {Redirect} from 'react-router-dom'
 import history from '../history'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import makeApiCall from "../apiCall";
@@ -19,21 +16,6 @@ class Login extends React.Component {
         this.handlePassChange = this.handlePassChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
-
-    // async loginCall(username, password) {
-    //     const result = await fetch(`http://${API_HOST}/login`, {
-    //         method: 'POST',
-    //         body: JSON.stringify({
-    //             "username": username,
-    //             "password": password
-    //         }),
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     })
-    //     const resultMessage = await result.text()
-    //     return resultMessage
-    // }
 
     handleUserChange(event) {
         this.setState({username: event.target.value})
