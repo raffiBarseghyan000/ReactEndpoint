@@ -1,6 +1,7 @@
 import {LoginStates} from "./actions"
 import history from './history'
-import API_HOST from './appHost'
+
+const API_HOST = process.env.REACT_APP_API_HOST
 
 async function makeApiCall(method, url, body) {
     if (!body) {

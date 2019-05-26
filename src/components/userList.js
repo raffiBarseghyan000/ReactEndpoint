@@ -3,6 +3,7 @@ import ReactPaginate from 'react-paginate'
 import makeApiCall from '../apiCall'
 import history from '../history'
 import {deleteConfirmationUser} from './popUp'
+import queryString from 'query-string'
 import '../styles/pagination.css'
 
 class UserList extends React.Component {
@@ -10,7 +11,8 @@ class UserList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            userCount: 0
+            userCount: 0,
+            initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1
         }
         this.handlePageClick = this.handlePageClick.bind(this)
         this.addNewUser = this.addNewUser.bind(this)
@@ -54,25 +56,21 @@ class UserList extends React.Component {
         return retArray
     }
 
-    async refreshUserList(offset, limit) {
+    async refreshUserList(offset, limit, selected) {
         const response = await makeApiCall('GET', `/users?offset=${offset}&limit=${limit}`)
         if (response.success === false) {
             console.log(response.message)
         } else {
             this.props.updateUserList(response.result.values)
             this.setState({userCount: response.result.count})
+            history.push(`?page=${selected + 1}`)
         }
-    }
-
-    componentDidMount() {
-        this.refreshUserList(0, this.props.showPerPage).then(() => {
-        })
     }
 
     handlePageClick(data) {
         let selected = data.selected
         let offset = Math.ceil(selected * this.props.showPerPage)
-        this.refreshUserList(offset, this.props.showPerPage)
+        this.refreshUserList(offset, this.props.showPerPage, selected)
     }
 
     addNewUser() {
@@ -100,6 +98,7 @@ class UserList extends React.Component {
                     pageCount={Math.ceil(this.state.userCount / this.props.showPerPage)}
                     pageRangeDisplayed={3}
                     marginPagesDisplayed={1}
+                    initialPage={this.state.initialPage - 1}
                     onPageChange={this.handlePageClick}
                 />
             </div>
