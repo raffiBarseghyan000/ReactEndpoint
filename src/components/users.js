@@ -45,7 +45,7 @@ class Users extends React.Component {
         })
         alert(result.message)
         if(result.success){
-            history.push(`${this.props.parentPath}`)
+            history.push(`/users`)
         }
     }
 

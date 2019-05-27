@@ -18,8 +18,7 @@ class EditUser extends React.Component {
     }
 
     componentDidMount() {
-        const pathnameArray = this.props.location.pathname.split('/')
-        makeApiCall('GET', `/users/${pathnameArray[4]}`).then((response) => {
+        makeApiCall('GET', `/users/${this.props.match.params.username}`).then((response) => {
             let user
             if (response.success) {
                 user = response.result

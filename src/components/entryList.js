@@ -51,7 +51,7 @@ class EntryList extends React.Component {
     }
 
     addNewEntry() {
-        history.push(`${this.props.parentPath}/addNew`)
+        history.push(`${this.props.match.url}/addNew`)
     }
 
     async deleteEntriesSubmit(event) {
@@ -60,7 +60,7 @@ class EntryList extends React.Component {
         if (result.success === false) {
             alert(result.message)
         } else {
-            history.push(this.props.parentPath)
+            history.push(this.props.match.url)
         }
     }
 

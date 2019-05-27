@@ -31,7 +31,7 @@ class UserList extends React.Component {
     }
 
     editUser(username) {
-        history.push(`${this.props.parentPath}/edit/${username}`)
+        history.push(`${this.props.match.url}/edit/${username}`)
     }
 
     renderUserList() {
@@ -56,7 +56,7 @@ class UserList extends React.Component {
         return retArray
     }
 
-    async refreshUserList(offset, limit, selected) {
+    async refreshUserList(offset, limit, selected = 1) {
         const response = await makeApiCall('GET', `/users?offset=${offset}&limit=${limit}`)
         if (response.success === false) {
             console.log(response.message)
@@ -74,7 +74,7 @@ class UserList extends React.Component {
     }
 
     addNewUser() {
-        history.push(`${this.props.parentPath}/addNew`)
+        history.push(`${this.props.match.url}/addNew`)
     }
 
     render() {

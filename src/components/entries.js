@@ -23,16 +23,12 @@ class Entries extends React.Component {
         }
         catch {
             alert("invalid JSON object")
-            history.push(`${this.props.parentPath}`)
             return
         }
         const result = await makeApiCall('POST', `/entries`, value)
         alert(result.message)
         if(result.success){
-            history.push(`${this.props.parentPath}`)
-        }
-        else {
-            alert(result.message)
+            history.push('/main/entries')
         }
     }
 
