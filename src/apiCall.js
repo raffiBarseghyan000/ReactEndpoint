@@ -9,8 +9,6 @@ async function makeApiCall(method, url, body) {
     } else {
         body = JSON.stringify(body)
     }
-    // const cookies = new Cookies()
-    // const token = cookies.get('access_token')
     const token = localStorage.getItem("access_token")
     const result = await fetch(`${API_HOST}${url}`, {
         method: method,

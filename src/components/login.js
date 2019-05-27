@@ -34,8 +34,6 @@ class Login extends React.Component {
             if (result.success === false) {
                 alert(result.message)
             } else {
-                // const cookies = new Cookies()
-                // cookies.set('access_token', JSON.parse(result).token)
                 localStorage.setItem("access_token", result.token)
                 localStorage.setItem("isLoggedIn", LoginStates.LOGGED_IN)
                 history.push('/main')
@@ -56,7 +54,7 @@ class Login extends React.Component {
                             <input className="form-control" type="text" id="usernameLogin" value={this.state.username}
                                    onChange={this.handleUserChange}/>
                         </div>
-                        <div class="form-group col-lg-3">
+                        <div className="form-group col-lg-3">
                             <label htmlFor="passwordLogin">Password:</label>
                             <input className="form-control" type="password" id="passwordLogin"
                                    value={this.state.password} onChange={this.handlePassChange}/>
