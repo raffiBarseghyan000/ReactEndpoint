@@ -2,8 +2,8 @@ import React from 'react'
 import ReactPaginate from 'react-paginate'
 import makeApiCall from '../apiCall'
 import history from '../history'
-import {deleteConfirmationEntry} from "./popUp";
-import queryString from "query-string";
+import queryString from "query-string"
+import Swal from 'sweetalert2'
 
 class EntryList extends React.Component {
 
@@ -17,6 +17,7 @@ class EntryList extends React.Component {
         this.addNewEntry = this.addNewEntry.bind(this)
         this.deleteEntriesSubmit = this.deleteEntriesSubmit.bind(this)
         this.refreshEntryList = this.refreshEntryList.bind(this)
+        this.handleEntryDelete = this.handleEntryDelete.bind(this)
     }
 
     renderEntryList() {
@@ -64,13 +65,42 @@ class EntryList extends React.Component {
         }
     }
 
+    handleEntryDelete() {
+        Swal.fire({
+            title: 'Are you sure?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it'
+        }).then((result)=> {
+            
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire(
+                    'Deleted',
+                    'Entry has been deleted',
+                    'success'
+                )
+            }
+        }).then(()=> {
+            history.push('/main/entries')
+        })
+    }
+
+    componentDidMount() {
+        makeApiCall('GET', `/entries?limit=0`).then((response)=> {
+            this.setState({entryCount: response.result.count})
+        })
+    }
+
     render() {
         return (
             <div>
                 <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewEntry}>Add new entry
                 </button>
                 <div className="pagination_parent">
-                    {deleteConfirmationEntry()}
+                    {this.state.entryCount > 0 && <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.handleEntryDelete}>Delete all</button>}
                     <table className="table table-bordered">
                         <thead>
                         <tr>
@@ -80,16 +110,16 @@ class EntryList extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {this.renderEntryList()}
+                        {this.state.entryCount > 0 ? this.renderEntryList() : <span>No entries to display</span>}
                         </tbody>
                     </table>
-                    <ReactPaginate
+                    {this.state.entryCount > 0 && <ReactPaginate
                         pageCount={Math.ceil(this.state.entryCount / this.props.showPerPage)}
                         pageRangeDisplayed={3}
                         marginPagesDisplayed={1}
                         initialPage={this.state.initialPage - 1}
                         onPageChange={this.handlePageClick}
-                    />
+                    />}
                 </div>
             </div>
         )

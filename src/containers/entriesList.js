@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import EntryList from '../components/entryList'
-import {refreshEntryList} from "../actions";
+import {refreshEntryList} from "../actions"
 
 const mapStateToProps = (state)=> ({
     entryList: state.displayedEntries

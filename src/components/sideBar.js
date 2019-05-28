@@ -1,6 +1,6 @@
 import React from 'react'
-import {SelectTabStates} from "../actions";
-import history from "../history";
+import {SelectTabStates} from "../actions"
+import history from "../history"
 
 class SideBar extends React.Component {
 

@@ -2,7 +2,7 @@ import React from "react"
 import Popup from "reactjs-popup"
 import makeApiCall from "../apiCall"
 import history from '../history'
-import EntryList from "./entryList";
+import EntryList from "./entryList"
 
 async function onClickRedirectUser(username) {
     await makeApiCall('DELETE', `/users/${username}`)

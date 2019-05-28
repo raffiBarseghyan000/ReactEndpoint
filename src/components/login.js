@@ -2,7 +2,7 @@ import React from 'react'
 import {LoginStates} from "../actions"
 import history from '../history'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import makeApiCall from "../apiCall";
+import makeApiCall from "../apiCall"
 
 class Login extends React.Component {
 
@@ -26,7 +26,7 @@ class Login extends React.Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault();
+        event.preventDefault()
         return makeApiCall('POST', '/login', {
             username: this.state.username,
             password: this.state.password

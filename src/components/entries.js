@@ -1,6 +1,6 @@
 import React from 'react'
-import makeApiCall from "../apiCall";
-import history from "../history";
+import makeApiCall from "../apiCall"
+import history from "../history"
 
 class Entries extends React.Component {
     constructor(props) {
