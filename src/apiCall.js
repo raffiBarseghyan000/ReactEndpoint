@@ -10,21 +10,27 @@ async function makeApiCall(method, url, body) {
         body = JSON.stringify(body)
     }
     const token = localStorage.getItem("access_token")
-    const result = await fetch(`${API_HOST}${url}`, {
-        method: method,
-        body: body,
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+    try {
+        const result = await fetch(`${API_HOST}${url}`, {
+            method: method,
+            body: body,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        const resultText = JSON.parse(await result.text())
+        if (resultText.message === "Auth token is expired" || resultText.message === "Auth token is not valid" || resultText.message === "Token is not valid") {
+            localStorage.removeItem("access_token")
+            localStorage.setItem("isLoggedIn", LoginStates.LOGGED_OUT)
+            history.push('/login')
         }
-    })
-    let resultText = JSON.parse(await result.text())
-    if (resultText.message === "Auth token is expired" || resultText.message === "Auth token is not valid" || resultText.message === "Token is not valid") {
-        localStorage.removeItem("access_token")
-        localStorage.setItem("isLoggedIn", LoginStates.LOGGED_OUT)
-        history.push('/login')
+        return resultText
     }
-    return resultText
+    catch (err) {
+        alert(err.message)
+    }
+
 }
 
 export default makeApiCall
