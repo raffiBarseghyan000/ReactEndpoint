@@ -38,6 +38,9 @@ class Entries extends React.Component {
                 <h2>Entries</h2>
                 <form id="entryForm" onSubmit={this.addEntrySubmit}>
                     <div className="form-group">
+                        <label htmlFor="entryName">Name:</label>
+                        <input type="text" className="form-control" id="entryName" placeholder="Enter name" onChange={this.addEntryChange}/>
+                        <label htmlFor="addUsername">Value:</label>
                         <input type="text" className="form-control" id="entryBody" placeholder="Enter Json" onChange={this.addEntryChange}/>
                         <button className="btn btn-default" type="submit" id="addEntity">Add</button>
                     </div>

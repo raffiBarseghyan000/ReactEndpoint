@@ -73,23 +73,32 @@ class EntryList extends React.Component {
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, delete it'
-        }).then((result)=> {
-            
         }).then((result) => {
             if (result.value) {
-                Swal.fire(
-                    'Deleted',
-                    'Entry has been deleted',
-                    'success'
-                )
+                makeApiCall('DELETE', `/entries`).then((result) => {
+                    if (result.success) {
+                        Swal.fire(
+                            'Deleted',
+                            'Entries have been deleted',
+                            'success'
+                        )
+                    }
+                    else {
+                        Swal.fire(
+                            'Unable to deleted',
+                            result.message,
+                            'error'
+                        )
+                    }
+                }).then(()=> {
+                    history.push('/main/entries')
+                })
             }
-        }).then(()=> {
-            history.push('/main/entries')
         })
     }
 
     componentDidMount() {
-        makeApiCall('GET', `/entries?limit=0`).then((response)=> {
+        makeApiCall('GET', `/entries?limit=0`).then((response) => {
             this.setState({entryCount: response.result.count})
         })
     }
@@ -100,7 +109,8 @@ class EntryList extends React.Component {
                 <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewEntry}>Add new entry
                 </button>
                 <div className="pagination_parent">
-                    {this.state.entryCount > 0 && <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.handleEntryDelete}>Delete all</button>}
+                    {this.state.entryCount > 0 && <button className="btn btn-secondary float-sm-right col-lg-2"
+                                                          onClick={this.handleEntryDelete}>Delete all</button>}
                     <table className="table table-bordered">
                         <thead>
                         <tr>
