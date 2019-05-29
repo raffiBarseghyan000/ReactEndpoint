@@ -1,34 +1,45 @@
 import React from 'react'
 import makeApiCall from "../apiCall"
 import history from "../history"
+import Swal from "sweetalert2";
 
 class Entries extends React.Component {
     constructor(props) {
         super(props)
-        this.addEntry = ''
+        this.addEntryName = ''
+        this.addEntryValue = ''
 
         this.addEntrySubmit = this.addEntrySubmit.bind(this)
-        this.addEntryChange = this.addEntryChange.bind(this)
+        this.addEntryNameChange = this.addEntryNameChange.bind(this)
+        this.addEntryValueChange = this.addEntryValueChange.bind(this)
     }
 
-    addEntryChange(event) {
-        this.addEntry = event.target.value
+    addEntryNameChange(event) {
+        this.addEntryName = event.target.value
+    }
+
+    addEntryValueChange(event) {
+        this.addEntryValue = event.target.value
     }
 
     async addEntrySubmit(event) {
         event.preventDefault()
-        let value
-        try {
-            value = JSON.parse(this.addEntry)
-        }
-        catch {
-            alert("invalid JSON object")
-            return
-        }
-        const result = await makeApiCall('POST', `/entries`, value)
-        alert(result.message)
+        const result = await makeApiCall('POST', `/entries`, {name: this.addEntryName, value: this.addEntryValue})
         if(result.success){
-            history.push('/main/entries')
+            Swal.fire(
+                'Success',
+                'Entry added',
+                'success'
+            ).then(()=> {
+                history.push('/main/entries')
+            })
+        }
+        else {
+            Swal.fire(
+                'Error',
+                'Can not add entry',
+                'error'
+            )
         }
     }
 
@@ -39,9 +50,9 @@ class Entries extends React.Component {
                 <form id="entryForm" onSubmit={this.addEntrySubmit}>
                     <div className="form-group">
                         <label htmlFor="entryName">Name:</label>
-                        <input type="text" className="form-control" id="entryName" placeholder="Enter name" onChange={this.addEntryChange}/>
-                        <label htmlFor="addUsername">Value:</label>
-                        <input type="text" className="form-control" id="entryBody" placeholder="Enter Json" onChange={this.addEntryChange}/>
+                        <input type="text" className="form-control" id="entryName" placeholder="Enter name" onChange={this.addEntryNameChange}/>
+                        <label htmlFor="entryValue">Value:</label>
+                        <input type="text" className="form-control" id="entryValue" placeholder="Enter value" onChange={this.addEntryValueChange}/>
                         <button className="btn btn-default" type="submit" id="addEntity">Add</button>
                     </div>
                 </form>

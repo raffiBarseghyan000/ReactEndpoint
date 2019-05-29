@@ -1,5 +1,6 @@
 import {LoginStates} from "./actions"
 import history from './history'
+import Swal from "sweetalert2";
 
 const API_HOST = process.env.REACT_APP_API_HOST
 
@@ -28,7 +29,11 @@ async function makeApiCall(method, url, body) {
         return resultText
     }
     catch (err) {
-        alert(err.message)
+        Swal.fire(
+            'Error',
+            err.message,
+            'error'
+        )
     }
 
 }

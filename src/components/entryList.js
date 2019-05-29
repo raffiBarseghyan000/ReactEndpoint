@@ -37,7 +37,11 @@ class EntryList extends React.Component {
     async refreshEntryList(offset, limit, selected) {
         const response = await makeApiCall('GET', `/entries?offset=${offset}&limit=${limit}`)
         if (response.success === false) {
-            alert(response.message)
+            Swal.fire(
+                'Error',
+                response.message,
+                'error'
+            )
         } else {
             this.props.updateEntryList(response.result.values)
             this.setState({entryCount: response.result.count})
@@ -59,7 +63,11 @@ class EntryList extends React.Component {
         event.preventDefault()
         const result = await makeApiCall('DELETE', `/entries`)
         if (result.success === false) {
-            alert(result.message)
+            Swal.fire(
+                'Error',
+                result.message,
+                'error'
+            )
         } else {
             history.push(this.props.match.url)
         }
@@ -72,7 +80,7 @@ class EntryList extends React.Component {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it'
+            confirmButtonText: 'Yes, delete all'
         }).then((result) => {
             if (result.value) {
                 makeApiCall('DELETE', `/entries`).then((result) => {
@@ -81,7 +89,9 @@ class EntryList extends React.Component {
                             'Deleted',
                             'Entries have been deleted',
                             'success'
-                        )
+                        ).then(()=> {
+                            history.push('/main/entries')
+                        })
                     }
                     else {
                         Swal.fire(
@@ -90,8 +100,6 @@ class EntryList extends React.Component {
                             'error'
                         )
                     }
-                }).then(()=> {
-                    history.push('/main/entries')
                 })
             }
         })

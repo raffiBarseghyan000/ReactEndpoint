@@ -3,6 +3,7 @@ import {LoginStates} from "../actions"
 import history from '../history'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import makeApiCall from "../apiCall"
+import Swal from "sweetalert2";
 
 class Login extends React.Component {
 
@@ -32,14 +33,22 @@ class Login extends React.Component {
             password: this.state.password
         }).then((result) => {
             if (result.success === false) {
-                alert(result.message)
+                Swal.fire(
+                    'Error',
+                    result.message,
+                    'error'
+                )
             } else {
                 localStorage.setItem("access_token", result.token)
                 localStorage.setItem("isLoggedIn", LoginStates.LOGGED_IN)
                 history.push('/main')
             }
         }).catch((e) => {
-            alert(e)
+            Swal.fire(
+                'Error',
+                e.message,
+                'error'
+            )
         })
     }
 

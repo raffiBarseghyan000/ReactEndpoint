@@ -1,6 +1,7 @@
 import React from 'react'
 import makeApiCall from '../apiCall'
 import history from '../history'
+import Swal from "sweetalert2";
 
 class Users extends React.Component {
 
@@ -43,7 +44,9 @@ class Users extends React.Component {
             firstName: this.addFirstName,
             lastName: this.addLastName
         })
-        alert(result.message)
+        await Swal.fire(
+            result.message
+        )
         if(result.success){
             history.push(`/users`)
         }

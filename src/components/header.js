@@ -2,6 +2,7 @@ import React from 'react'
 import {LoginStates} from "../actions"
 import makeApiCall from "../apiCall"
 import history from '../history'
+import Swal from "sweetalert2";
 
 class Header extends React.Component {
 
@@ -18,7 +19,11 @@ class Header extends React.Component {
             localStorage.setItem("isLoggedIn", LoginStates.LOGGED_OUT)
             history.push('/login')
         } catch (err) {
-            alert(err)
+            Swal.fire(
+                'Error',
+                err.message,
+                'error'
+            )
         }
     }
 
