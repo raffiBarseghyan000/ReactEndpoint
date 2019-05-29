@@ -4,6 +4,7 @@ import makeApiCall from '../apiCall'
 import history from '../history'
 import {deleteConfirmationUser} from './popUp'
 import queryString from 'query-string'
+import Swal from 'sweetalert2'
 import '../styles/pagination.css'
 
 class UserList extends React.Component {
@@ -22,9 +23,9 @@ class UserList extends React.Component {
         const retArray = []
         Object.keys(elem).map((elemKey) => {
             return retArray.push(
-                <li key={elemKey}>
-                    {elemKey}: {elem[elemKey]}
-                </li>
+                <td>
+                    {elem[elemKey]}
+                </td>
             )
         })
         return retArray
@@ -34,21 +35,46 @@ class UserList extends React.Component {
         history.push(`${this.props.match.url}/edit/${username}`)
     }
 
+    deleteUser(username) {
+        Swal.fire({
+            title: 'Are you sure?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete user'
+        }).then((result) => {
+            if (result.value) {
+                makeApiCall('DELETE', `/users/${username}`).then((result) => {
+                    if (result.success) {
+                        Swal.fire(
+                            'Deleted',
+                            'Entries have been deleted',
+                            'success'
+                        ).then(() => {
+                            history.push('/users')
+                        })
+                    } else {
+                        Swal.fire(
+                            'Unable to deleted',
+                            result.message,
+                            'error'
+                        )
+                    }
+                })
+            }
+        })
+    }
+
     renderUserList() {
         const retArray = []
         if (this.props.userList) {
             this.props.userList.map((elem) => {
                 return retArray.push(<tr key={elem.username}>
+                    {this.renderList(elem)}
                     <td>
-                        <ul>
-                            {this.renderList(elem)}
-                        </ul>
-                    </td>
-                    <td>
-                        {deleteConfirmationUser(elem.username)}
-                    </td>
-                    <td>
-                        <button className="btn btn-block" onClick={() => this.editUser(elem.username)}>Edit</button>
+                        <button className="btn btn-block col-lg-6" onClick={() => this.editUser(elem.username)}><i className="fa fa-edit"/>Edit</button>
+                        <button className="btn btn-block col-lg-6" onClick={() => this.deleteUser(elem.username)}><i className="fa fa-trash"/>Delete</button>
                     </td>
                 </tr>)
             })
@@ -87,6 +113,15 @@ class UserList extends React.Component {
                     <tr>
                         <td>
                             <h3>Users</h3>
+                        </td>
+                        <td>
+                            <h3>First Name</h3>
+                        </td>
+                        <td>
+                            <h3>Last Name</h3>
+                        </td>
+                        <td>
+                            <h3>Actions</h3>
                         </td>
                     </tr>
                     </thead>
