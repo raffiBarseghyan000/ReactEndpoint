@@ -57,8 +57,8 @@ class EntryList extends React.Component {
 
     renderEntryList() {
         const retArray = []
-        if (this.props.entryList) {
-            this.props.entryList.map((elem) => {
+        if (this.props.entryList.entry) {
+            this.props.entryList.entry.map((elem, index) => {
                 return retArray.push(<tr key={elem.name}>
                     <td>
                         {elem.name}
@@ -67,11 +67,18 @@ class EntryList extends React.Component {
                         {elem.value}
                     </td>
                     <td>
-
+                        Count: {this.props.entryList.userCount[index]}
+                        <button role='button' className="btn btn-block" onClick={() => this.handleEditUsers(elem.name)}><i
+                            className="fa fa-edit"/>Edit users
+                        </button>
                     </td>
                     <td>
-                        <button role='button' className="btn btn-block" onClick={() => this.editEntry(elem.name)}><i className="fa fa-edit"/>Edit</button>
-                        <button role='button' className="btn btn-block" onClick={() => this.deleteEntry(elem.name)}><i className="fa fa-trash"/>Delete</button>
+                        <button role='button' className="btn btn-block" onClick={() => this.editEntry(elem.name)}><i
+                            className="fa fa-edit"/>Edit
+                        </button>
+                        <button role='button' className="btn btn-block" onClick={() => this.deleteEntry(elem.name)}><i
+                            className="fa fa-trash"/>Delete
+                        </button>
                     </td>
                 </tr>)
             })
@@ -88,7 +95,15 @@ class EntryList extends React.Component {
                 'error'
             )
         } else {
-            this.props.updateEntryList(response.result.values)
+            const promiseArr = []
+            response.result.values.map((elem) => {
+                promiseArr.push(makeApiCall('GET', `/attachedEntry/${elem.name}`))
+            })
+            let userCount = await Promise.all(promiseArr)
+            userCount = userCount.map((elem) => {
+                return elem.value
+            })
+            this.props.updateEntryList({entry: response.result.values, userCount: userCount})
             this.setState({entryCount: response.result.count})
             history.push(`?page=${selected + 1}`)
         }
@@ -134,11 +149,10 @@ class EntryList extends React.Component {
                             'Deleted',
                             'Entries have been deleted',
                             'success'
-                        ).then(()=> {
+                        ).then(() => {
                             history.push('/main/entries')
                         })
-                    }
-                    else {
+                    } else {
                         Swal.fire(
                             'Unable to deleted',
                             result.message,
@@ -159,11 +173,13 @@ class EntryList extends React.Component {
     render() {
         return (
             <div>
-                <button role='button' className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewEntry}>Add new entry
+                <button role='button' className="btn btn-secondary float-sm-right col-lg-2"
+                        onClick={this.addNewEntry}>Add new entry
                 </button>
                 <div className="pagination_parent">
-                    {this.state.entryCount > 0 && <button role='button' className="btn btn-secondary float-sm-right col-lg-2"
-                                                          onClick={this.handleEntryDelete}>Delete all</button>}
+                    {this.state.entryCount > 0 &&
+                    <button role='button' className="btn btn-secondary float-sm-right col-lg-2"
+                            onClick={this.handleEntryDelete}>Delete all</button>}
                     <table className="table table-bordered">
                         <thead>
                         <tr>
@@ -173,7 +189,7 @@ class EntryList extends React.Component {
                             <td>
                                 <h3>Value</h3>
                             </td>
-                            <td>
+                            <td width="150px">
                                 <h3>Users</h3>
                             </td>
                             <td width="100px">
