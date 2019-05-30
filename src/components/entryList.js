@@ -20,13 +20,58 @@ class EntryList extends React.Component {
         this.handleEntryDelete = this.handleEntryDelete.bind(this)
     }
 
+    editEntry(user) {
+        history.push(`${this.props.match.url}/edit/${user}`)
+    }
+
+    deleteEntry(entry) {
+        Swal.fire({
+            title: 'Are you sure?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete entry'
+        }).then((result) => {
+            if (result.value) {
+                makeApiCall('DELETE', `/entries/${entry}`).then((result) => {
+                    if (result.success) {
+                        Swal.fire(
+                            'Deleted',
+                            'Entry has been deleted',
+                            'success'
+                        ).then(() => {
+                            history.push('/main/entries?page=1')
+                        })
+                    } else {
+                        Swal.fire(
+                            'Unable to deleted',
+                            result.message,
+                            'error'
+                        )
+                    }
+                })
+            }
+        })
+    }
+
     renderEntryList() {
         const retArray = []
         if (this.props.entryList) {
-            this.props.entryList.map((elem, index) => {
-                return retArray.push(<tr key={index}>
+            this.props.entryList.map((elem) => {
+                return retArray.push(<tr key={elem.name}>
                     <td>
-                        {JSON.stringify(elem)}
+                        {elem.name}
+                    </td>
+                    <td>
+                        {elem.value}
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                        <button role='button' className="btn btn-block" onClick={() => this.editEntry(elem.name)}><i className="fa fa-edit"/>Edit</button>
+                        <button role='button' className="btn btn-block" onClick={() => this.deleteEntry(elem.name)}><i className="fa fa-trash"/>Delete</button>
                     </td>
                 </tr>)
             })
@@ -114,16 +159,25 @@ class EntryList extends React.Component {
     render() {
         return (
             <div>
-                <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewEntry}>Add new entry
+                <button role='button' className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewEntry}>Add new entry
                 </button>
                 <div className="pagination_parent">
-                    {this.state.entryCount > 0 && <button className="btn btn-secondary float-sm-right col-lg-2"
+                    {this.state.entryCount > 0 && <button role='button' className="btn btn-secondary float-sm-right col-lg-2"
                                                           onClick={this.handleEntryDelete}>Delete all</button>}
                     <table className="table table-bordered">
                         <thead>
                         <tr>
                             <td>
-                                <h3>Entries</h3>
+                                <h3>Name</h3>
+                            </td>
+                            <td>
+                                <h3>Value</h3>
+                            </td>
+                            <td>
+                                <h3>Users</h3>
+                            </td>
+                            <td width="100px">
+                                <h3>Actions</h3>
                             </td>
                         </tr>
                         </thead>

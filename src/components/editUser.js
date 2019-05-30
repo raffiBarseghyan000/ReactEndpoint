@@ -71,10 +71,7 @@ class EditUser extends React.Component {
                             <label htmlFor="addLastName">Last Name:</label>
                             <input type="text" className="form-control" id="addLastName" placeholder="Enter Last Name"
                                    onChange={this.addLastNameChange}/>
-                            <label htmlFor="addPassword">Password:</label>
-                            <input type="text" className="form-control" id="addPassword" placeholder="Enter Password"
-                                   onChange={this.addPasswordChange}/>
-                            <button className="btn btn-default" type="submit" id="addUser">Add</button>
+                            <button role='button' className="btn btn-default" type="submit" id="addUser">Add</button>
                         </div>
                     </form>
                 </div>

@@ -5,7 +5,6 @@ import history from '../history'
 import {deleteConfirmationUser} from './popUp'
 import queryString from 'query-string'
 import Swal from 'sweetalert2'
-import '../styles/pagination.css'
 
 class UserList extends React.Component {
 
@@ -49,7 +48,7 @@ class UserList extends React.Component {
                     if (result.success) {
                         Swal.fire(
                             'Deleted',
-                            'Entries have been deleted',
+                            'User have been deleted',
                             'success'
                         ).then(() => {
                             history.push('/users')
@@ -73,8 +72,8 @@ class UserList extends React.Component {
                 return retArray.push(<tr key={elem.username}>
                     {this.renderList(elem)}
                     <td>
-                        <button className="btn btn-block col-lg-6" onClick={() => this.editUser(elem.username)}><i className="fa fa-edit"/>Edit</button>
-                        <button className="btn btn-block col-lg-6" onClick={() => this.deleteUser(elem.username)}><i className="fa fa-trash"/>Delete</button>
+                        <button role='button' className="btn btn-block" onClick={() => this.editUser(elem.username)}><i className="fa fa-edit"/>Edit</button>
+                        <button role='button' className="btn btn-block" onClick={() => this.deleteUser(elem.username)}><i className="fa fa-trash"/>Delete</button>
                     </td>
                 </tr>)
             })
@@ -106,7 +105,7 @@ class UserList extends React.Component {
     render() {
         return (
             <div className="pagination_parent">
-                <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewUser}>Add new user
+                <button role='button' className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewUser}>Add new user
                 </button>
                 <table className="table table-bordered">
                     <thead>
@@ -120,7 +119,7 @@ class UserList extends React.Component {
                         <td>
                             <h3>Last Name</h3>
                         </td>
-                        <td>
+                        <td width="100px">
                             <h3>Actions</h3>
                         </td>
                     </tr>

@@ -4,6 +4,7 @@ import Login from './login'
 import Main from './main'
 import {LoginStates} from "../actions"
 import history from '../history'
+import '../styles/pagination.css'
 
 class App extends React.Component {
 
