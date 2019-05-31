@@ -10,6 +10,7 @@ import EntryList from '../containers/entriesList'
 import NotFound from "./notFound"
 import HamburgerMenuPage from './hamburgerMenu'
 import EditEntry from './editEntry'
+import EntLinkUserToEntry from './linkUserToEntry'
 import {Redirect} from "react-router-dom"
 
 class Main extends React.Component {
@@ -27,6 +28,7 @@ class Main extends React.Component {
                                render={(props) => <EntryList {...props} showPerPage='3'/>}/>
                         <Route path={`${this.props.match.url}/users/addNew`} component={User}/>} />
                         <Route path={`${this.props.match.url}/entries/addNew`} component={Entry}/>
+                        <Route path={`${this.props.match.url}/entries/linkUser/:entry`} component={EntLinkUserToEntry}/>
                         <Route path={`${this.props.match.url}/users/edit/:username`} component={EditUser}/>
                         <Route path={`${this.props.match.url}/entries/edit/:entry`} component={EditEntry}/>
                         <Redirect exact from={this.props.match.url} to={`${this.props.match.url}/users`}/>

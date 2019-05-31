@@ -3,7 +3,7 @@ import ReactPaginate from 'react-paginate'
 import makeApiCall from '../apiCall'
 import history from '../history'
 import queryString from "query-string"
-import Swal from 'sweetalert2'
+import Swal from "sweetalert2";
 
 class EntryList extends React.Component {
 
@@ -11,7 +11,8 @@ class EntryList extends React.Component {
         super(props)
         this.state = {
             entryCount: 0,
-            initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1
+            initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1,
+            showCheckBoxPopup: null
         }
         this.handlePageClick = this.handlePageClick.bind(this)
         this.addNewEntry = this.addNewEntry.bind(this)
@@ -68,8 +69,9 @@ class EntryList extends React.Component {
                     </td>
                     <td>
                         Count: {this.props.entryList.userCount[index]}
-                        <button role='button' className="btn btn-block" onClick={() => this.handleEditUsers(elem.name)}><i
-                            className="fa fa-edit"/>Edit users
+                        <button role='button' className="btn btn-block"
+                                onClick={() => history.push(`${this.props.match.url}/linkUser/${elem.name}`)}>
+                            <i className="fa fa-edit"/>Edit users
                         </button>
                     </td>
                     <td>

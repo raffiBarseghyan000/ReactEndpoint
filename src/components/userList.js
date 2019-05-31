@@ -2,7 +2,6 @@ import React from 'react'
 import ReactPaginate from 'react-paginate'
 import makeApiCall from '../apiCall'
 import history from '../history'
-import {deleteConfirmationUser} from './popUp'
 import queryString from 'query-string'
 import Swal from 'sweetalert2'
 
