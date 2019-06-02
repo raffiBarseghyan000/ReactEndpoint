@@ -44,6 +44,7 @@ class LinkUserToEntry extends React.Component {
                                value={user.user} onClick={()=> (this.toggleCheckbox(user.user, user.attached))} /> {user.user} <br/>
                     </li>)
                 }
+                return
             }
         )
         return (<ul>{userArr}

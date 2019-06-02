@@ -202,8 +202,9 @@ class EntryList extends React.Component {
                             </td>
                         </tr>
                         </thead>
-                        {this.state.entryCount !== -1 ? this.renderEntryList() : <Spinner />}
+                        {this.state.entryCount !== -1 && this.renderEntryList()}
                     </table>
+                    {this.state.entryCount === -1 && <Spinner/>}
                     {this.state.entryCount > 0 && <ReactPaginate
                         pageCount={Math.ceil(this.state.entryCount / this.props.showPerPage)}
                         pageRangeDisplayed={3}

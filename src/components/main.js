@@ -8,19 +8,54 @@ import User from './users'
 import EditUser from './editUser'
 import EntryList from '../containers/entriesList'
 import NotFound from "./notFound"
-import HamburgerMenuPage from './hamburgerMenu'
 import EditEntry from './editEntry'
 import EntLinkUserToEntry from './linkUserToEntry'
 import {Redirect} from "react-router-dom"
+import Sidebar from "react-sidebar"
+import history from '../history'
+
+const mql = window.matchMedia(`(min-width: 800px)`)
 
 class Main extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            sidebarDocked: mql.matches,
+            sidebarOpen: false
+        };
+
+        this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
+        this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+    }
+
+    componentWillMount() {
+        mql.addListener(this.mediaQueryChanged);
+    }
+
+    componentWillUnmount() {
+        this.state.mql.removeListener(this.mediaQueryChanged);
+    }
+
+    onSetSidebarOpen(open) {
+        this.setState({ sidebarOpen: open });
+    }
+
+    mediaQueryChanged() {
+        this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
+    }
+
     render() {
         return (
+            <Sidebar
+                sidebar={<ul><li><button role='button' className='btn btn-elegant' onClick={()=> {history.push('/main/users')}}>Users</button></li> <li><button role='button' className='btn btn-elegant' onClick={()=> {history.push('/main/entries')}}>Entries</button></li></ul>}
+                open={this.state.sidebarOpen}
+                docked={this.state.sidebarDocked}
+                onSetOpen={this.onSetSidebarOpen}
+            >
             <div>
                 <div className="container">
                     <Header/>
-                    <HamburgerMenuPage/>
                     <Switch>
                         <Route exact path={`${this.props.match.url}/users/`}
                                render={(props) => <UserList {...props} showPerPage='3'/>}/>
@@ -37,6 +72,8 @@ class Main extends React.Component {
                     <Footer/>
                 </div>
             </div>
+            </Sidebar>
+
         )
     }
 
