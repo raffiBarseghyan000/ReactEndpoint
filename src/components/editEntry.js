@@ -2,6 +2,7 @@ import React from 'react'
 import makeApiCall from '../apiCall'
 import history from '../history'
 import Swal from "sweetalert2";
+import Spinner from "./spinner";
 
 class EditUser extends React.Component {
     constructor(props) {
@@ -60,7 +61,7 @@ class EditUser extends React.Component {
                 </div>
             </div>
         } else {
-            renderValue = <h2>Entry not found</h2>
+            renderValue = <Spinner />
         }
         return renderValue
     }

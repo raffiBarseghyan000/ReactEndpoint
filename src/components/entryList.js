@@ -4,13 +4,14 @@ import makeApiCall from '../apiCall'
 import history from '../history'
 import queryString from "query-string"
 import Swal from "sweetalert2";
+import Spinner from "./spinner";
 
 class EntryList extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            entryCount: 0,
+            entryCount: -1,
             initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1,
             showCheckBoxPopup: null
         }
@@ -57,8 +58,8 @@ class EntryList extends React.Component {
     }
 
     renderEntryList() {
-        const retArray = []
-        if (this.props.entryList.entry) {
+        let retArray = []
+        if (this.state.entryCount > 0) {
             this.props.entryList.entry.map((elem, index) => {
                 return retArray.push(<tr key={elem.name}>
                     <td>
@@ -84,6 +85,10 @@ class EntryList extends React.Component {
                     </td>
                 </tr>)
             })
+            retArray = <tbody>{retArray}</tbody>
+        }
+        else {
+            retArray = <div>Nothing to display</div>
         }
         return retArray
     }
@@ -107,7 +112,7 @@ class EntryList extends React.Component {
             })
             this.props.updateEntryList({entry: response.result.values, userCount: userCount})
             this.setState({entryCount: response.result.count})
-            history.push(`?page=${selected + 1}`)
+            selected && history.push(`?page=${selected + 1}`)
         }
     }
 
@@ -167,9 +172,7 @@ class EntryList extends React.Component {
     }
 
     componentDidMount() {
-        makeApiCall('GET', `/entries?limit=0`).then((response) => {
-            this.setState({entryCount: response.result.count})
-        })
+        this.refreshEntryList(0, this.props.showPerPage)
     }
 
     render() {
@@ -199,9 +202,7 @@ class EntryList extends React.Component {
                             </td>
                         </tr>
                         </thead>
-                        <tbody>
-                        {this.state.entryCount > 0 ? this.renderEntryList() : <span>No entries to display</span>}
-                        </tbody>
+                        {this.state.entryCount !== -1 ? this.renderEntryList() : <Spinner />}
                     </table>
                     {this.state.entryCount > 0 && <ReactPaginate
                         pageCount={Math.ceil(this.state.entryCount / this.props.showPerPage)}

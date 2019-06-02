@@ -1,5 +1,7 @@
 import React from 'react'
 import makeApiCall from '../apiCall'
+import Spinner from "./spinner"
+import history from '../history'
 
 class LinkUserToEntry extends React.Component {
 
@@ -44,14 +46,15 @@ class LinkUserToEntry extends React.Component {
                 }
             }
         )
-        return userArr
+        return (<ul>{userArr}
+            <button role='button' onClick={()=> {history.push('/main/entries?page=1')}}> back </button>
+        </ul>)
     }
 
     render() {
+
         return (<div>
-            <ul>
-                {this.renderUsers()}
-            </ul>
+                {this.state.users.length === 0 ? <Spinner /> : this.renderUsers()}
         </div>)
     }
 

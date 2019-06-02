@@ -4,6 +4,7 @@ import makeApiCall from '../apiCall'
 import history from '../history'
 import queryString from 'query-string'
 import Swal from 'sweetalert2'
+import Spinner from "./spinner"
 
 class UserList extends React.Component {
 
@@ -76,6 +77,9 @@ class UserList extends React.Component {
                     </td>
                 </tr>)
             })
+        }
+        else {
+            retArray.push(<Spinner/>)
         }
         return retArray
     }
