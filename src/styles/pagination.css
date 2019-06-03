@@ -15,3 +15,7 @@
 .pagination_parent>ul {
     display: inline-block;
 }
+
+button {
+    cursor: pointer;
+}

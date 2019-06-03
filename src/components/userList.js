@@ -72,13 +72,16 @@ class UserList extends React.Component {
                 return retArray.push(<tr key={elem.username}>
                     {this.renderList(elem)}
                     <td>
-                        <button role='button' className="btn btn-block" onClick={() => this.editUser(elem.username)}><i className="fa fa-edit"/>Edit</button>
-                        <button role='button' className="btn btn-block" onClick={() => this.deleteUser(elem.username)}><i className="fa fa-trash"/>Delete</button>
+                        <button className="btn btn-block" onClick={() => this.editUser(elem.username)}><i
+                            className="fa fa-edit"/>Edit
+                        </button>
+                        <button className="btn btn-block" onClick={() => this.deleteUser(elem.username)}><i
+                            className="fa fa-trash"/>Delete
+                        </button>
                     </td>
                 </tr>)
             })
-        }
-        else {
+        } else {
             retArray.push(<Spinner/>)
         }
         return retArray
@@ -108,7 +111,7 @@ class UserList extends React.Component {
     render() {
         return (
             <div className="pagination_parent">
-                <button role='button' className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewUser}>Add new user
+                <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewUser}>Add new user
                 </button>
                 <table className="table table-bordered">
                     <thead>

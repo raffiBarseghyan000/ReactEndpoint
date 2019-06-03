@@ -34,7 +34,7 @@ class Main extends React.Component {
     }
 
     componentWillUnmount() {
-        this.state.mql.removeListener(this.mediaQueryChanged);
+        mql.removeListener(this.mediaQueryChanged);
     }
 
     onSetSidebarOpen(open) {
@@ -48,7 +48,7 @@ class Main extends React.Component {
     render() {
         return (
             <Sidebar
-                sidebar={<ul><li><button role='button' className='btn btn-elegant' onClick={()=> {history.push('/main/users')}}>Users</button></li> <li><button role='button' className='btn btn-elegant' onClick={()=> {history.push('/main/entries')}}>Entries</button></li></ul>}
+                sidebar={<div><span>Locations</span><ul><li><button  className='btn btn-elegant' onClick={()=> {history.push('/main/users')}}>Users</button></li> <li><button  className='btn btn-elegant' onClick={()=> {history.push('/main/entries')}}>Entries</button></li></ul></div>}
                 open={this.state.sidebarOpen}
                 docked={this.state.sidebarDocked}
                 onSetOpen={this.onSetSidebarOpen}

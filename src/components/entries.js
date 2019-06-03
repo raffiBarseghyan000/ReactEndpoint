@@ -53,7 +53,7 @@ class Entries extends React.Component {
                         <input type="text" className="form-control" id="entryName" placeholder="Enter name" onChange={this.addEntryNameChange}/>
                         <label htmlFor="entryValue">Value:</label>
                         <input type="text" className="form-control" id="entryValue" placeholder="Enter value" onChange={this.addEntryValueChange}/>
-                        <button role='button' className="btn btn-default" type="submit" id="addEntity">Add</button>
+                        <button  className="btn btn-default" type="submit" id="addEntity">Add</button>
                     </div>
                 </form>
             </div>

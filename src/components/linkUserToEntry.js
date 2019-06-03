@@ -33,28 +33,21 @@ class LinkUserToEntry extends React.Component {
     renderUsers() {
         const userArr = []
         this.state.users.map((user) => {
-                if (user.attached) {
-                    userArr.push(<li key={user.user}>
-                        <input id={`alertId-${user.user}`} type="checkbox"
-                               value={user.user} onClick={()=> (this.toggleCheckbox(user.user, user.attached))} checked/> {user.user} <br/>
-                    </li>)
-                } else {
-                    userArr.push(<li key={user.user}>
-                        <input id={`alertId-${user.user}`} type="checkbox"
-                               value={user.user} onClick={()=> (this.toggleCheckbox(user.user, user.attached))} /> {user.user} <br/>
-                    </li>)
-                }
-                return
+            return userArr.push(<li key={user.user}>
+                <input id={`alertId-${user.user}`} type="checkbox"
+                       value={user.user} onClick={()=> (this.toggleCheckbox(user.user, user.attached))} defaultChecked={user.attached} /> {user.user} <br/>
+            </li>)
             }
         )
         return (<ul>{userArr}
-            <button role='button' onClick={()=> {history.push('/main/entries?page=1')}}> back </button>
+            <button  onClick={()=> {history.push('/main/entries?page=1')}}> back </button>
         </ul>)
     }
 
     render() {
 
         return (<div>
+            <h3>{this.props.match.params.entry}</h3>
                 {this.state.users.length === 0 ? <Spinner /> : this.renderUsers()}
         </div>)
     }

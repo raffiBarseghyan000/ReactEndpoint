@@ -43,7 +43,7 @@ class EntryList extends React.Component {
                             'Entry has been deleted',
                             'success'
                         ).then(() => {
-                            history.push('/main/entries?page=1')
+                            history.push('/main/entries')
                         })
                     } else {
                         Swal.fire(
@@ -70,25 +70,22 @@ class EntryList extends React.Component {
                     </td>
                     <td>
                         Count: {this.props.entryList.userCount[index]}
-                        <button role='button' className="btn btn-block"
+                        <button  className="btn btn-block"
                                 onClick={() => history.push(`${this.props.match.url}/linkUser/${elem.name}`)}>
                             <i className="fa fa-edit"/>Edit users
                         </button>
                     </td>
                     <td>
-                        <button role='button' className="btn btn-block" onClick={() => this.editEntry(elem.name)}><i
+                        <button  className="btn btn-block" onClick={() => this.editEntry(elem.name)}><i
                             className="fa fa-edit"/>Edit
                         </button>
-                        <button role='button' className="btn btn-block" onClick={() => this.deleteEntry(elem.name)}><i
+                        <button  className="btn btn-block" onClick={() => this.deleteEntry(elem.name)}><i
                             className="fa fa-trash"/>Delete
                         </button>
                     </td>
                 </tr>)
             })
             retArray = <tbody>{retArray}</tbody>
-        }
-        else {
-            retArray = <div>Nothing to display</div>
         }
         return retArray
     }
@@ -104,7 +101,7 @@ class EntryList extends React.Component {
         } else {
             const promiseArr = []
             response.result.values.map((elem) => {
-                promiseArr.push(makeApiCall('GET', `/attachedEntry/${elem.name}`))
+                return promiseArr.push(makeApiCall('GET', `/attachedEntry/${elem.name}`))
             })
             let userCount = await Promise.all(promiseArr)
             userCount = userCount.map((elem) => {
@@ -178,13 +175,10 @@ class EntryList extends React.Component {
     render() {
         return (
             <div>
-                <button role='button' className="btn btn-secondary float-sm-right col-lg-2"
+                <button  className="btn btn-secondary float-sm-right col-lg-2"
                         onClick={this.addNewEntry}>Add new entry
                 </button>
                 <div className="pagination_parent">
-                    {this.state.entryCount > 0 &&
-                    <button role='button' className="btn btn-secondary float-sm-right col-lg-2"
-                            onClick={this.handleEntryDelete}>Delete all</button>}
                     <table className="table table-bordered">
                         <thead>
                         <tr>
@@ -205,6 +199,7 @@ class EntryList extends React.Component {
                         {this.state.entryCount !== -1 && this.renderEntryList()}
                     </table>
                     {this.state.entryCount === -1 && <Spinner/>}
+                    {this.state.entryCount === 0 && <div>Nothing to display</div>}
                     {this.state.entryCount > 0 && <ReactPaginate
                         pageCount={Math.ceil(this.state.entryCount / this.props.showPerPage)}
                         pageRangeDisplayed={3}
