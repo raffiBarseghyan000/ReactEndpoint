@@ -1,9 +1,12 @@
-import { put, takeLatest, all } from 'redux-saga/effects'
+import {put, takeLatest, all} from 'redux-saga/effects'
+import makeApiCall from "../apiCall";
 
-
+function* fetchEntries({payload}) {
+    const response = yield call(makeApiCall, )
+}
 
 function* entryActionWatcher() {
-    yield takeLatest('GET_NEWS', fetchNews)
+    yield takeLatest('REFRESH_ENTRY_LIST', fetchEntries)
 }
 
 function* userActionWatcher() {

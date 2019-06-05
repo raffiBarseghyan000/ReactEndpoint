@@ -1,17 +1,15 @@
-import {LoadingStates as LOADING_STATES} from '../actions'
-
-const displayedEntries = (state = {loading: LOADING_STATES.NOT_SENT}, action) => {
+const displayedEntries = (state = {}, action) => {
     switch (action.type) {
         case 'REFRESH_ENTRY_LIST':
             return {
                 ...state,
-                loading: LOADING_STATES.PENDING
+                loading: true
             }
         case 'RECEIVED_ENTRY_LIST':
             return {
                 ...state,
                 entryList: action.updatedEntryList,
-                loading: LOADING_STATES.RECEIVED
+                loading: false
             }
         default:
             return state

@@ -136,37 +136,6 @@ class EntryList extends React.Component {
         }
     }
 
-    // handleEntryDelete() {
-    //     Swal.fire({
-    //         title: 'Are you sure?',
-    //         type: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonColor: '#3085d6',
-    //         cancelButtonColor: '#d33',
-    //         confirmButtonText: 'Yes, delete all'
-    //     }).then((result) => {
-    //         if (result.value) {
-    //             makeApiCall('DELETE', `/entries`).then((result) => {
-    //                 if (result.success) {
-    //                     Swal.fire(
-    //                         'Deleted',
-    //                         'Entries have been deleted',
-    //                         'success'
-    //                     ).then(() => {
-    //                         history.push('/main/entries')
-    //                     })
-    //                 } else {
-    //                     Swal.fire(
-    //                         'Unable to deleted',
-    //                         result.message,
-    //                         'error'
-    //                     )
-    //                 }
-    //             })
-    //         }
-    //     })
-    // }
-
     componentDidMount() {
         this.refreshEntryList(0, this.props.showPerPage)
     }
