@@ -13,19 +13,19 @@ class LinkUserToEntry extends React.Component {
     }
 
     componentDidMount() {
-        makeApiCall('GET', `/attachedEntry/allUsers/${this.props.match.params.entry}`).then((response) => {
+        makeApiCall('GET', `/entries/users/${this.props.match.params.entry}`).then((response) => {
             this.setState({users: response.value})
         })
     }
 
     async toggleCheckbox(user, attached) {
         if(attached) {
-            await makeApiCall('DELETE', `/attachedEntry/${user}`, {entry: this.props.match.params.entry})
+            await makeApiCall('DELETE', `/entries/users`, {entry: this.props.match.params.entry, user})
         }
         else {
-            await makeApiCall('POST', `/attachedEntry/${user}`, {entry: this.props.match.params.entry})
+            await makeApiCall('POST', `/entries/users`, {entry: this.props.match.params.entry, user})
         }
-        makeApiCall('GET', `/attachedEntry/allUsers/${this.props.match.params.entry}`).then((response) => {
+        makeApiCall('GET', `/entries/users/${this.props.match.params.entry}`).then((response) => {
             this.setState({users: response.value})
         })
     }

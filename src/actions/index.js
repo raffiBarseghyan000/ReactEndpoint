@@ -13,8 +13,7 @@ export const LoginStates = {
     LOGGED_OUT: 'LOGGED_OUT'
 }
 
-export const LoadingStates = {
-    NOT_SENT: 'NOT_SENT',
-    PENDING: 'PENDING',
-    RECEIVED: 'RECEIVED'
+export const SelectTabStates = {
+    USERS: 'users',
+    ENTRIES: 'entries'
 }
