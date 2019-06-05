@@ -15,5 +15,5 @@ export const LoginStates = {
 
 export const SelectTabStates = {
     USERS: 'users',
-    ENTRIES: 'entries'
+    ENTRIES: 'modEntries.js'
 }
