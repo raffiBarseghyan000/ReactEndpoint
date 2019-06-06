@@ -1,13 +1,14 @@
 import { connect } from 'react-redux'
 import EntryList from '../components/entryList'
-import {refreshEntryList} from "../actions"
+import {refreshEntryList, deleteEntry} from "../actions"
 
 const mapStateToProps = (state)=> ({
     entryList: state.displayedEntries
 })
 
 const mapDispatchToProps = (dispatch)=> ({
-    updateEntryList: (newEntryList)=> dispatch(refreshEntryList(newEntryList))
+    updateEntryList: (offset, limit)=> dispatch(refreshEntryList(offset, limit)),
+    deleteEntry: (entry)=> dispatch(deleteEntry(entry))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntryList)

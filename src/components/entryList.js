@@ -17,8 +17,6 @@ class EntryList extends React.Component {
         }
         this.handlePageClick = this.handlePageClick.bind(this)
         this.addNewEntry = this.addNewEntry.bind(this)
-        this.deleteEntriesSubmit = this.deleteEntriesSubmit.bind(this)
-        this.refreshEntryList = this.refreshEntryList.bind(this)
     }
 
     editEntry(user) {
@@ -35,115 +33,79 @@ class EntryList extends React.Component {
             confirmButtonText: 'Yes, delete entry'
         }).then((result) => {
             if (result.value) {
-                makeApiCall('DELETE', `/entries/${entry}`).then((result) => {
-                    if (result.success) {
-                        Swal.fire(
-                            'Deleted',
-                            'Entry has been deleted',
-                            'success'
-                        ).then(() => {
-                            history.push('/main/entries')
-                        })
-                    } else {
-                        Swal.fire(
-                            'Unable to deleted',
-                            result.message,
-                            'error'
-                        )
-                    }
-                })
+                this.props.deleteEntry(entry)
+                debugger
+                if (this.props.entryList.entryDelete) {
+                    debugger
+                    Swal.fire(
+                        'Deleted',
+                        'Entry has been deleted',
+                        'success'
+                    ).then(() => {
+                        history.push('/main/entries')
+                    })
+                } else {
+                    Swal.fire(
+                        'Unable to deleted',
+                        result.message,
+                        'error'
+                    )
+                }
+
             }
         })
     }
 
     renderEntryList() {
         let retArray = []
-        if (this.state.entryCount > 0) {
-            this.props.entryList.entry.map((elem, index) => {
-                return retArray.push(<tr key={elem.name}>
-                    <td>
-                        {elem.name}
-                    </td>
-                    <td>
-                        {elem.value}
-                    </td>
-                    <td>
-                        Count: {this.props.entryList.userCount[index]}
-                        <button  className="btn btn-block"
-                                onClick={() => history.push(`${this.props.match.url}/linkUser/${elem.name}`)}>
-                            <i className="fa fa-edit"/>Edit users
-                        </button>
-                    </td>
-                    <td>
-                        <button  className="btn btn-block" onClick={() => this.editEntry(elem.name)}><i
-                            className="fa fa-edit"/>Edit
-                        </button>
-                        <button  className="btn btn-block" onClick={() => this.deleteEntry(elem.name)}><i
-                            className="fa fa-trash"/>Delete
-                        </button>
-                    </td>
-                </tr>)
-            })
-            retArray = <tbody>{retArray}</tbody>
-        }
+        this.props.entryList.entryList.values.map((elem, index) => {
+            return retArray.push(<tr key={elem.name}>
+                <td>
+                    {elem.name}
+                </td>
+                <td>
+                    {elem.value}
+                </td>
+                <td>
+                    Count: {this.props.entryList.userCount && this.props.entryList.userCount[index]}
+                    <button className="btn btn-block"
+                            onClick={() => history.push(`${this.props.match.url}/linkUser/${elem.name}`)}>
+                        <i className="fa fa-edit"/>Edit users
+                    </button>
+                </td>
+                <td>
+                    <button className="btn btn-block" onClick={() => this.editEntry(elem.name)}><i
+                        className="fa fa-edit"/>Edit
+                    </button>
+                    <button className="btn btn-block" onClick={() => this.deleteEntry(elem.name)}><i
+                        className="fa fa-trash"/>Delete
+                    </button>
+                </td>
+            </tr>)
+        })
+        retArray = <tbody>{retArray}</tbody>
         return retArray
-    }
-
-    async refreshEntryList(offset, limit, selected) {
-        const response = await makeApiCall('GET', `/entries?offset=${offset}&limit=${limit}`)
-        if (response.success === false) {
-            Swal.fire(
-                'Error',
-                response.message,
-                'error'
-            )
-        } else {
-            const promiseArr = []
-            response.result.values.map((elem) => {
-                return promiseArr.push(makeApiCall('GET', `/entries/users/count/${elem.name}`))
-            })
-            let userCount = await Promise.all(promiseArr)
-            userCount = userCount.map((elem) => {
-                return elem.value
-            })
-            this.props.updateEntryList({entry: response.result.values, userCount: userCount})
-            this.setState({entryCount: response.result.count})
-            selected && history.push(`?page=${selected + 1}`)
-        }
     }
 
     handlePageClick(data) {
         let selected = data.selected
         let offset = Math.ceil(selected * this.props.showPerPage)
-        this.refreshEntryList(offset, this.props.showPerPage, selected)
+        // this.refreshEntryList(offset, this.props.showPerPage, selected)
+        this.props.updateEntryList(offset, this.props.showPerPage)
     }
 
     addNewEntry() {
         history.push(`${this.props.match.url}/addNew`)
     }
 
-    async deleteEntriesSubmit(event) {
-        event.preventDefault()
-        const result = await makeApiCall('DELETE', `/entries`)
-        if (result.success === false) {
-            Swal.fire(
-                'Error',
-                result.message,
-                'error'
-            )
-        } else {
-            history.push(this.props.match.url)
-        }
-    }
-
     componentDidMount() {
-        this.refreshEntryList(0, this.props.showPerPage)
+        this.props.updateEntryList(0, this.props.showPerPage)
     }
 
     render() {
         return (
             <div>
-                <button  className="btn btn-secondary float-sm-right col-lg-2"
+                <button className="btn btn-secondary float-sm-right col-lg-2"
                         onClick={this.addNewEntry}>Add new entry
                 </button>
                 <div className="pagination_parent">
@@ -164,12 +126,12 @@ class EntryList extends React.Component {
                             </td>
                         </tr>
                         </thead>
-                        {this.state.entryCount !== -1 && this.renderEntryList()}
+                        {this.props.entryList.entryList && this.props.entryList.entryList.count > 0 && this.renderEntryList()}
                     </table>
-                    {this.state.entryCount === -1 && <Spinner/>}
-                    {this.state.entryCount === 0 && <div>Nothing to display</div>}
-                    {this.state.entryCount > 0 && <ReactPaginate
-                        pageCount={Math.ceil(this.state.entryCount / this.props.showPerPage)}
+                    {this.props.entryList.loading && <Spinner/>}
+                    {!this.props.entryList.entryList && <div>Nothing to display</div>}
+                    {this.props.entryList.entryList && this.props.entryList.entryList.count > 0 && <ReactPaginate
+                        pageCount={Math.ceil(this.props.entryList.entryList.count / this.props.showPerPage)}
                         pageRangeDisplayed={3}
                         marginPagesDisplayed={1}
                         initialPage={this.state.initialPage - 1}

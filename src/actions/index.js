@@ -9,6 +9,11 @@ export const refreshEntryList = (offset, limit) => ({
     limit
 })
 
+export const deleteEntry = (entry)=> ({
+    type: 'DELETE_ENTRY',
+    entry
+})
+
 export const LoginStates = {
     LOGGED_IN: 'LOGGED_IN',
     LOGGED_OUT: 'LOGGED_OUT'
