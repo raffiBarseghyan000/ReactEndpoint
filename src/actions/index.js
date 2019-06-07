@@ -1,6 +1,7 @@
-export const refreshUsersList = (updatedUsersList) => ({
+export const refreshUsersList = (offset, limit) => ({
     type: 'REFRESH_USERS_LIST',
-    updatedUsersList
+    offset,
+    limit
 })
 
 export const refreshEntryList = (offset, limit) => ({
@@ -12,6 +13,16 @@ export const refreshEntryList = (offset, limit) => ({
 export const deleteEntry = (entry)=> ({
     type: 'DELETE_ENTRY',
     entry
+})
+
+export const deleteUser = (username)=> ({
+    type: 'DELETE_USER',
+    username
+})
+
+export const addEntry = (fields)=> ({
+    type: 'ADD_ENTRY',
+    fields
 })
 
 export const LoginStates = {

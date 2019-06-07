@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactPaginate from 'react-paginate'
-import makeApiCall from '../apiCall'
 import history from '../history'
 import queryString from 'query-string'
 import Swal from 'sweetalert2'
@@ -11,7 +10,6 @@ class UserList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            userCount: 0,
             initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1
         }
         this.handlePageClick = this.handlePageClick.bind(this)
@@ -41,34 +39,36 @@ class UserList extends React.Component {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete user'
+            confirmButtonText: 'Yes, delete user',
+            onOpen: () => {
+                this.props.deleteUser(username)
+            }
         }).then((result) => {
             if (result.value) {
-                makeApiCall('DELETE', `/users/${username}`).then((result) => {
-                    if (result.success) {
-                        Swal.fire(
-                            'Deleted',
-                            'User have been deleted',
-                            'success'
-                        ).then(() => {
-                            history.push('/users')
-                        })
-                    } else {
-                        Swal.fire(
-                            'Unable to deleted',
-                            result.message,
-                            'error'
-                        )
-                    }
-                })
+                if (this.props.userList.userDelete) {
+                    Swal.fire(
+                        'Deleted',
+                        'User has been deleted',
+                        'success'
+                    ).then(() => {
+                        history.push('/main/users')
+                    })
+                } else {
+                    Swal.fire({
+                        title: 'Unable to deleted',
+                        text: this.props.userList.message,
+                        type: 'error',
+                        confirmButtonText: 'OK'
+                    })
+                }
             }
         })
     }
 
     renderUserList() {
         const retArray = []
-        if (this.props.userList) {
-            this.props.userList.map((elem) => {
+        if (!this.props.loading) {
+            this.props.userList.userList.values.map((elem) => {
                 return retArray.push(<tr key={elem.username}>
                     {this.renderList(elem)}
                     <td>
@@ -87,21 +87,11 @@ class UserList extends React.Component {
         return retArray
     }
 
-    async refreshUserList(offset, limit, selected = 1) {
-        const response = await makeApiCall('GET', `/users?offset=${offset}&limit=${limit}`)
-        if (response.success === false) {
-            console.log(response.message)
-        } else {
-            this.props.updateUserList(response.result.values)
-            this.setState({userCount: response.result.count})
-            history.push(`?page=${selected + 1}`)
-        }
-    }
-
     handlePageClick(data) {
         let selected = data.selected
         let offset = Math.ceil(selected * this.props.showPerPage)
-        this.refreshUserList(offset, this.props.showPerPage, selected)
+        this.props.updateUserList(offset, this.props.showPerPage)
+        history.push(`?page=${selected + 1}`)
     }
 
     addNewUser() {
@@ -135,7 +125,7 @@ class UserList extends React.Component {
                     </tbody>
                 </table>
                 <ReactPaginate
-                    pageCount={Math.ceil(this.state.userCount / this.props.showPerPage)}
+                    pageCount={Math.ceil(this.props.userList.userList.count / this.props.showPerPage)}
                     pageRangeDisplayed={3}
                     marginPagesDisplayed={1}
                     initialPage={this.state.initialPage - 1}

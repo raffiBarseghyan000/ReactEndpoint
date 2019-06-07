@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactPaginate from 'react-paginate'
-import makeApiCall from '../apiCall'
 import history from '../history'
 import queryString from "query-string"
 import Swal from "sweetalert2";
@@ -11,9 +10,7 @@ class EntryList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            entryCount: -1,
-            initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1,
-            showCheckBoxPopup: null
+            initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1
         }
         this.handlePageClick = this.handlePageClick.bind(this)
         this.addNewEntry = this.addNewEntry.bind(this)
@@ -30,13 +27,13 @@ class EntryList extends React.Component {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete entry'
+            confirmButtonText: 'Yes, delete entry',
+            onOpen: () => {
+                this.props.deleteEntry(entry)
+            }
         }).then((result) => {
             if (result.value) {
-                this.props.deleteEntry(entry)
-                debugger
                 if (this.props.entryList.entryDelete) {
-                    debugger
                     Swal.fire(
                         'Deleted',
                         'Entry has been deleted',
@@ -45,13 +42,13 @@ class EntryList extends React.Component {
                         history.push('/main/entries')
                     })
                 } else {
-                    Swal.fire(
-                        'Unable to deleted',
-                        result.message,
-                        'error'
-                    )
+                    Swal.fire({
+                        title: 'Unable to deleted',
+                        text: this.props.entryList.message,
+                        type: 'error',
+                        confirmButtonText: 'OK'
+                    })
                 }
-
             }
         })
     }
@@ -90,8 +87,8 @@ class EntryList extends React.Component {
     handlePageClick(data) {
         let selected = data.selected
         let offset = Math.ceil(selected * this.props.showPerPage)
-        // this.refreshEntryList(offset, this.props.showPerPage, selected)
         this.props.updateEntryList(offset, this.props.showPerPage)
+        history.push(`/main/entries?page=${selected+1}`)
     }
 
     addNewEntry() {
@@ -100,6 +97,7 @@ class EntryList extends React.Component {
 
     componentDidMount() {
         this.props.updateEntryList(0, this.props.showPerPage)
+        history.push(`/main/entries?page=${this.state.initialPage}`)
     }
 
     render() {
