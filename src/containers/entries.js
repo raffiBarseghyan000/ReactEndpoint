@@ -2,8 +2,12 @@ import { connect } from 'react-redux'
 import Entries from '../components/entries'
 import {deleteUser, addEntry} from "../actions"
 
-const mapDispatchToProps = (dispatch)=> ({
-    addUser: (fields)=> dispatch(addEntry(fields))
+const mapStateToProps = (state)=> ({
+    addEntryResponse: state.addEntries
 })
 
-export default connect(null, mapDispatchToProps)(Entries)
+const mapDispatchToProps = (dispatch)=> ({
+    addEntry: (name, value)=> dispatch(addEntry(name, value))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Entries)

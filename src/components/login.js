@@ -11,7 +11,8 @@ class Login extends React.Component {
         super(props)
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            loginAttempt: false
         }
         this.handleUserChange = this.handleUserChange.bind(this)
         this.handlePassChange = this.handlePassChange.bind(this)
@@ -28,33 +29,30 @@ class Login extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault()
-        return makeApiCall('POST', '/login', {
-            username: this.state.username,
-            password: this.state.password
-        }).then((result) => {
-            if (result.success === false) {
-                Swal.fire(
-                    'Error',
-                    result.message,
-                    'error'
-                )
-            } else {
-                localStorage.setItem("access_token", result.token)
-                localStorage.setItem("isLoggedIn", LoginStates.LOGGED_IN)
-                history.push('/main')
-            }
-        }).catch((e) => {
-            Swal.fire(
-                'Error',
-                e.message,
-                'error'
-            )
-        })
+        this.props.login(this.state.username, this.state.password)
+        this.setState({loginAttempt: true})
+    }
+
+    handleLogin() {
+        debugger
+        if (!this.props.loginStatus.success) {
+            Swal.fire({
+                title: 'Error',
+                text: this.props.loginStatus.message,
+                type: 'error'
+            })
+        } else {
+            localStorage.setItem("access_token", this.props.loginStatus.token)
+            localStorage.setItem("isLoggedIn", LoginStates.LOGGED_IN)
+            history.push('/main')
+        }
+        this.setState({loginAttempt: false})
     }
 
     render() {
         return (
             <div className="container">
+                {this.state.loginAttempt && this.handleLogin()}
                 <h1>Login Page</h1>
                 <div className="container">
                     <form onSubmit={this.handleSubmit}>

@@ -1,5 +1,4 @@
 import React from 'react'
-import makeApiCall from '../apiCall'
 import history from '../history'
 import Swal from "sweetalert2";
 
@@ -7,10 +6,13 @@ class Users extends React.Component {
 
     constructor(props) {
         super(props)
-            this.addUsername = ''
-            this.addPassword = ''
-            this.addFirstName = ''
-            this.addLastName = ''
+        this.state = {
+            addUsername: '',
+            addPassword: '',
+            addFirstName: '',
+            addLastName: '',
+            showPopUp: false
+        }
 
         this.addUserSubmit = this.addUserSubmit.bind(this)
         this.addUserChange = this.addUserChange.bind(this)
@@ -21,41 +23,52 @@ class Users extends React.Component {
     }
 
     addUserChange(event) {
-        this.addUsername = event.target.value
+        this.setState({addUsername: event.target.value})
     }
 
     addPasswordChange(event) {
-        this.addPassword = event.target.value
+        this.setState({addPassword: event.target.value})
     }
 
     addFirstNameChange(event) {
-        this.addFirstName = event.target.value
+        this.setState({addFirstName: event.target.value})
     }
 
     addLastNameChange(event) {
-        this.addLastName = event.target.value
+        this.setState({addLastName: event.target.value})
     }
 
-    async addUserSubmit(event) {
+    addUserSubmit(event) {
         event.preventDefault()
-        const result = await makeApiCall('POST', `/users`, {
-            username: this.addUsername,
-            password: this.addPassword,
-            firstName: this.addFirstName,
-            lastName: this.addLastName
-        })
-        await Swal.fire(
-            result.message
-        )
-        if(result.success){
-            history.push(`/users`)
+        this.setState({showPopUp: true})
+        this.props.addUser(this.state.addUsername, this.state.addLastName, this.state.addFirstName, this.state.addPassword)
+    }
+
+    renderPopUp() {
+        if(this.props.addUserResponse.success){
+            Swal.fire(
+                'Success',
+                'Entry added',
+                'success'
+            ).then(()=> {
+                history.push('/main/users')
+            })
         }
+        else {
+            Swal.fire(
+                'Error',
+                'Can not add entry',
+                'error'
+            )
+        }
+        this.setState({showPopUp: false})
     }
 
     render() {
         return (
             <div>
                 <h2>Users</h2>
+                {this.state.showPopUp && this.props.addUserResponse.show && this.renderPopUp()}
                 <div className='container'>
                 <form id="userForm" onSubmit={this.addUserSubmit}>
                     <div className="form-group">

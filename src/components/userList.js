@@ -51,7 +51,7 @@ class UserList extends React.Component {
                         'User has been deleted',
                         'success'
                     ).then(() => {
-                        history.push('/main/users')
+                        this.handlePageClick({selected: 0})
                     })
                 } else {
                     Swal.fire({

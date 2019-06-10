@@ -1,6 +1,6 @@
 import React from 'react'
 import {Router, Switch, Route, Redirect} from "react-router-dom"
-import Login from './login'
+import Login from '../containers/login'
 import Main from './main'
 import {LoginStates} from "../actions"
 import history from '../history'

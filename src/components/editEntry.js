@@ -1,5 +1,4 @@
 import React from 'react'
-import makeApiCall from '../apiCall'
 import history from '../history'
 import Swal from "sweetalert2";
 import Spinner from "./spinner";
@@ -9,46 +8,43 @@ class EditUser extends React.Component {
         super(props)
         this.addEntrySubmit = this.addEntrySubmit.bind(this)
         this.addValueChange = this.addValueChange.bind(this)
-        this.value = ''
         this.state = {
-            entry: null
+            value: '',
+            showPopUp: false
         }
     }
 
     componentDidMount() {
-        makeApiCall('GET', `/entries/${this.props.match.params.entry}`).then((response) => {
-            let entry
-            if (response.success) {
-                entry = response.result
-            } else {
-                entry = null
-            }
-            this.setState({entry: entry})
-        })
+        this.props.verifyEntry(this.props.match.params.entry)
     }
 
     addValueChange(event) {
-        this.value = event.target.value
+        this.setState({value: event.target.value})
     }
 
-    async addEntrySubmit(event) {
+    addEntrySubmit(event) {
         event.preventDefault()
-        const result = await makeApiCall('PUT', `/entries/${this.state.entry.name}`, {
-            value: this.value
-        })
-        await Swal.fire(
-            result.message
-        )
-        if (result.success) {
+        this.props.editEntry(this.props.match.params.entry, this.state.value)
+        this.setState({showPopUp: true})
+    }
+
+    renderPopUp() {
+        Swal.fire({
+            title: 'Success',
+            message: this.props.editEntryResponse.edited,
+            type: 'success'
+        }).then(()=> {
             history.push('/main/entries')
-        }
+            this.setState({showPopUp: false})
+        })
     }
 
     render() {
         let renderValue
-        if (this.state.entry) {
+        {this.state.showPopUp && this.renderPopUp()}
+        if (this.props.editEntryResponse.verified) {
             renderValue = <div>
-                <h2>{this.state.entry.name}</h2>
+                <h2>{this.props.match.params.entry}</h2>
                 <div className='container'>
                     <form id="userForm" onSubmit={this.addEntrySubmit}>
                         <div className="form-group">

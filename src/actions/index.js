@@ -20,9 +20,51 @@ export const deleteUser = (username)=> ({
     username
 })
 
-export const addEntry = (fields)=> ({
+export const addEntry = (name, value)=> ({
     type: 'ADD_ENTRY',
-    fields
+    name,
+    value
+})
+
+export const addUser = (username, lastName, firstName, password)=> ({
+    type: 'ADD_USER',
+    username,
+    lastName,
+    firstName,
+    password
+})
+
+export const editEntry = (name, value)=> ({
+    type: 'EDIT_ENTRY',
+    name,
+    value
+})
+
+export const verifyEntry = (name)=> ({
+    type: 'VERIFY_ENTRY',
+    name
+})
+
+export const editUser = (username, firstName, lastName)=> ({
+    type: 'EDIT_USER',
+    username,
+    firstName,
+    lastName
+})
+
+export const verifyUser = (username)=> ({
+    type: 'VERIFY_USER',
+    username
+})
+
+export const logout = ()=> ({
+    type: 'LOGOUT'
+})
+
+export const login = (user, password)=> ({
+    type: 'LOGIN',
+    user,
+    password
 })
 
 export const LoginStates = {

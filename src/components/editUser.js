@@ -10,29 +10,15 @@ class EditUser extends React.Component {
         this.addUserSubmit = this.addUserSubmit.bind(this)
         this.addFirstNameChange = this.addFirstNameChange.bind(this)
         this.addLastNameChange = this.addLastNameChange.bind(this)
-        this.addPasswordChange = this.addPasswordChange.bind(this)
-        this.addPassword = ''
-        this.addFirstName = ''
-        this.addLastName = ''
         this.state = {
-            user: null
+            firstName: '',
+            lastName: '',
+            showPopUp: false
         }
     }
 
     componentDidMount() {
-        makeApiCall('GET', `/users/${this.props.match.params.username}`).then((response) => {
-            let user
-            if (response.success) {
-                user = response.result
-            } else {
-                user = null
-            }
-            this.setState({user: user})
-        })
-    }
-
-    addPasswordChange(event) {
-        this.addPassword = event.target.value
+        this.props.verifyUser(this.props.match.params.username)
     }
 
     addFirstNameChange(event) {
@@ -43,26 +29,29 @@ class EditUser extends React.Component {
         this.addLastName = event.target.value
     }
 
-    async addUserSubmit(event) {
+    addUserSubmit(event) {
         event.preventDefault()
-        const result = await makeApiCall('PUT', `/users/${this.state.user.username}`, {
-            password: this.addPassword,
-            firstName: this.addFirstName,
-            lastName: this.addLastName
+        this.props.editUser(this.props.match.params.username, this.state.firstName, this.state.lastName)
+        this.setState({showPopUp: true})
+    }
+
+    renderPopUp() {
+        Swal.fire({
+            title: 'Success',
+            message: this.props.editUserResponse.edited,
+            type: 'success'
+        }).then(()=> {
+            history.push('/main/users')
+            this.setState({showPopUp: false})
         })
-        await Swal.fire(
-            result.message
-        )
-        if (result.success) {
-            history.push('/users')
-        }
     }
 
     render() {
         let renderValue
-        if (this.state.user) {
+        {this.state.showPopUp && this.renderPopUp()}
+        if (this.props.editUserResponse.verified) {
             renderValue = <div>
-                <h2>{this.state.user.username}</h2>
+                <h2>{this.props.match.params.username}</h2>
                 <div className='container'>
                     <form id="userForm" onSubmit={this.addUserSubmit}>
                         <div className="form-group">

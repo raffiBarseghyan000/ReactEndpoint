@@ -1,14 +1,14 @@
 import React from 'react'
-import Header from "./header"
+import Header from "../containers/header"
 import UserList from "../containers/userList"
 import Footer from "./footer"
-import Entry from './entries'
+import Entry from '../containers/entries'
 import {Route, Switch} from "react-router-dom"
-import User from './users'
-import EditUser from './editUser'
+import User from '../containers/users'
+import EditUser from '../containers/editUser'
 import EntryList from '../containers/entriesList'
 import NotFound from "./notFound"
-import EditEntry from './editEntry'
+import EditEntry from '../containers/editEntry'
 import EntLinkUserToEntry from './linkUserToEntry'
 import {Redirect} from "react-router-dom"
 import Sidebar from "react-sidebar"
@@ -48,7 +48,7 @@ class Main extends React.Component {
     render() {
         return (
             <Sidebar
-                sidebar={<div><span>Locations</span><ul><li><button  className='btn btn-elegant' onClick={()=> {history.push('/main/users')}}>Users</button></li> <li><button  className='btn btn-elegant' onClick={()=> {history.push('/main/entries')}}>Entries</button></li></ul></div>}
+                sidebar={<div><span>Locations</span><ul><li><button  className='btn btn-elegant' onClick={()=> {history.push('/main/users?page=1')}}>Users</button></li> <li><button  className='btn btn-elegant' onClick={()=> {history.push('/main/entries?page=1')}}>Entries</button></li></ul></div>}
                 open={this.state.sidebarOpen}
                 docked={this.state.sidebarDocked}
                 onSetOpen={this.onSetSidebarOpen}

@@ -1,6 +1,5 @@
 import React from 'react'
 import {LoginStates} from "../actions"
-import makeApiCall from "../apiCall"
 import history from '../history'
 import Swal from "sweetalert2";
 
@@ -11,10 +10,10 @@ class Header extends React.Component {
         this.handleClick = this.handleClick.bind(this)
     }
 
-    async handleClick(event) {
+    handleClick(event) {
         try {
             event.preventDefault()
-            await makeApiCall('POST', '/logout')
+            this.props.logout()
             localStorage.removeItem("access_token")
             localStorage.setItem("isLoggedIn", LoginStates.LOGGED_OUT)
             history.push('/login')

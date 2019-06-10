@@ -39,7 +39,7 @@ class EntryList extends React.Component {
                         'Entry has been deleted',
                         'success'
                     ).then(() => {
-                        history.push('/main/entries')
+                        this.handlePageClick({selected: 0})
                     })
                 } else {
                     Swal.fire({
@@ -55,32 +55,37 @@ class EntryList extends React.Component {
 
     renderEntryList() {
         let retArray = []
-        this.props.entryList.entryList.values.map((elem, index) => {
-            return retArray.push(<tr key={elem.name}>
-                <td>
-                    {elem.name}
-                </td>
-                <td>
-                    {elem.value}
-                </td>
-                <td>
-                    Count: {this.props.entryList.userCount && this.props.entryList.userCount[index]}
-                    <button className="btn btn-block"
-                            onClick={() => history.push(`${this.props.match.url}/linkUser/${elem.name}`)}>
-                        <i className="fa fa-edit"/>Edit users
-                    </button>
-                </td>
-                <td>
-                    <button className="btn btn-block" onClick={() => this.editEntry(elem.name)}><i
-                        className="fa fa-edit"/>Edit
-                    </button>
-                    <button className="btn btn-block" onClick={() => this.deleteEntry(elem.name)}><i
-                        className="fa fa-trash"/>Delete
-                    </button>
-                </td>
-            </tr>)
-        })
-        retArray = <tbody>{retArray}</tbody>
+        if(this.props.entryList.entryList.values.length) {
+            this.props.entryList.entryList.values.map((elem, index) => {
+                return retArray.push(<tr key={elem.name}>
+                    <td>
+                        {elem.name}
+                    </td>
+                    <td>
+                        {elem.value}
+                    </td>
+                    <td>
+                        Count: {this.props.entryList.userCount && this.props.entryList.userCount[index]}
+                        <button className="btn btn-block"
+                                onClick={() => history.push(`${this.props.match.url}/linkUser/${elem.name}`)}>
+                            <i className="fa fa-edit"/>Edit users
+                        </button>
+                    </td>
+                    <td>
+                        <button className="btn btn-block" onClick={() => this.editEntry(elem.name)}><i
+                            className="fa fa-edit"/>Edit
+                        </button>
+                        <button className="btn btn-block" onClick={() => this.deleteEntry(elem.name)}><i
+                            className="fa fa-trash"/>Delete
+                        </button>
+                    </td>
+                </tr>)
+            })
+            retArray = <tbody>{retArray}</tbody>
+        }
+        else {
+            retArray = <div>Nothing to display</div>
+        }
         return retArray
     }
 

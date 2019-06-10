@@ -1,13 +1,15 @@
 import React from 'react'
-import makeApiCall from "../apiCall"
 import history from "../history"
 import Swal from "sweetalert2";
 
 class Entries extends React.Component {
     constructor(props) {
         super(props)
-        this.addEntryName = ''
-        this.addEntryValue = ''
+        this.state = {
+            addEntryName: '',
+            addEntryValue: '',
+            showPopUp: false
+        }
 
         this.addEntrySubmit = this.addEntrySubmit.bind(this)
         this.addEntryNameChange = this.addEntryNameChange.bind(this)
@@ -15,17 +17,21 @@ class Entries extends React.Component {
     }
 
     addEntryNameChange(event) {
-        this.addEntryName = event.target.value
+        this.setState({addEntryName: event.target.value})
     }
 
     addEntryValueChange(event) {
-        this.addEntryValue = event.target.value
+        this.setState({addEntryValue: event.target.value})
     }
 
-    async addEntrySubmit(event) {
+    addEntrySubmit(event) {
         event.preventDefault()
-        const result = await makeApiCall('POST', `/entries`, {name: this.addEntryName, value: this.addEntryValue})
-        if(result.success){
+        this.props.addEntry(this.state.addEntryName, this.state.addEntryValue)
+        this.setState({showPopUp: true})
+    }
+
+    renderPopUp() {
+        if(this.props.addEntryResponse.success){
             Swal.fire(
                 'Success',
                 'Entry added',
@@ -41,12 +47,14 @@ class Entries extends React.Component {
                 'error'
             )
         }
+        this.setState({showPopUp: false})
     }
 
     render() {
         return (
             <div>
                 <h2>Entries</h2>
+                {this.props.addEntryResponse.show && this.state.showPopUp && this.renderPopUp()}
                 <form id="entryForm" onSubmit={this.addEntrySubmit}>
                     <div className="form-group">
                         <label htmlFor="entryName">Name:</label>
