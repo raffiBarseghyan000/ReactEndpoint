@@ -2,7 +2,6 @@ import React from 'react'
 import {LoginStates} from "../actions"
 import history from '../history'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import makeApiCall from "../apiCall"
 import Swal from "sweetalert2";
 
 class Login extends React.Component {
@@ -34,7 +33,6 @@ class Login extends React.Component {
     }
 
     handleLogin() {
-        debugger
         if (!this.props.loginStatus.success) {
             Swal.fire({
                 title: 'Error',
@@ -52,7 +50,7 @@ class Login extends React.Component {
     render() {
         return (
             <div className="container">
-                {this.state.loginAttempt && this.handleLogin()}
+                {this.state.loginAttempt && this.props.loginStatus.pending && this.handleLogin()}
                 <h1>Login Page</h1>
                 <div className="container">
                     <form onSubmit={this.handleSubmit}>

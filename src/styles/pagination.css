@@ -19,3 +19,9 @@
 button {
     cursor: pointer;
 }
+
+.toBottom {
+    position: fixed;
+    width: 250px;
+    bottom: 10px;
+}

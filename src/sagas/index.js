@@ -7,6 +7,7 @@ import {editEntryWatcher, verifyEntryWatcher} from "./editEntry"
 import {editUserWatcher, verifyUserWatcher} from './editUser'
 import {addHeaderWatcher} from './header'
 import {loginWatcher} from './login'
+import {getAllUsersWatcher, checkUserWatcher, uncheckUserWatcher} from './linkUserToEntry'
 
 export default function* rootSaga() {
     yield all([
@@ -21,6 +22,9 @@ export default function* rootSaga() {
         verifyUserWatcher(),
         editUserWatcher(),
         addHeaderWatcher(),
-        loginWatcher()
+        loginWatcher(),
+        getAllUsersWatcher(),
+        checkUserWatcher(),
+        uncheckUserWatcher()
     ]);
 }

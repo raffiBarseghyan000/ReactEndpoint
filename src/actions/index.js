@@ -61,10 +61,27 @@ export const logout = ()=> ({
     type: 'LOGOUT'
 })
 
-export const login = (user, password)=> ({
+export const login = (username, password)=> ({
     type: 'LOGIN',
-    user,
+    username,
     password
+})
+
+export const getAllUsers = (name)=> ({
+    type: 'GET_ALL_USERS',
+    name
+})
+
+export const checkEntry = (user, entry)=> ({
+    type: 'CHECK_USER',
+    user,
+    entry
+})
+
+export const uncheckEntry = (user, entry)=> ({
+    type: 'UNCHECK_USER',
+    user,
+    entry
 })
 
 export const LoginStates = {

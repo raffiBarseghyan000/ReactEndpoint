@@ -6,6 +6,7 @@ import addUsers from './users'
 import editEntryState from './editEntry'
 import editUserState from './editUser'
 import loginState from './login'
+import userEntryState from './linkUserToEntry'
 
 export default combineReducers({
     displayedUsers,
@@ -14,5 +15,6 @@ export default combineReducers({
     addUsers,
     editEntryState,
     editUserState,
-    loginState
+    loginState,
+    userEntryState
 })

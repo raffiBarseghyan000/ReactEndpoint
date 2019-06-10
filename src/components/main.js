@@ -9,7 +9,7 @@ import EditUser from '../containers/editUser'
 import EntryList from '../containers/entriesList'
 import NotFound from "./notFound"
 import EditEntry from '../containers/editEntry'
-import EntLinkUserToEntry from './linkUserToEntry'
+import EntLinkUserToEntry from '../containers/linkUserToEntry'
 import {Redirect} from "react-router-dom"
 import Sidebar from "react-sidebar"
 import history from '../history'
@@ -25,8 +25,8 @@ class Main extends React.Component {
             sidebarOpen: false
         };
 
-        this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
-        this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+        this.mediaQueryChanged = this.mediaQueryChanged.bind(this)
+        this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this)
     }
 
     componentWillMount() {
@@ -45,6 +45,10 @@ class Main extends React.Component {
         this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
     }
 
+    toggleSidebar() {
+        this.setState({sidebarOpen: true})
+    }
+
     render() {
         return (
             <Sidebar
@@ -52,10 +56,12 @@ class Main extends React.Component {
                 open={this.state.sidebarOpen}
                 docked={this.state.sidebarDocked}
                 onSetOpen={this.onSetSidebarOpen}
+                styles={{ sidebar: { background: "grey" } }}
             >
             <div>
                 <div className="container">
                     <Header/>
+                    {!this.state.sidebarDocked && <button className="btn btn-block" onClick={()=> {this.toggleSidebar()}}>Expand sidebar</button>}
                     <Switch>
                         <Route exact path={`${this.props.match.url}/users/`}
                                render={(props) => <UserList {...props} showPerPage='3'/>}/>

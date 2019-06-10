@@ -51,7 +51,7 @@ class EditUser extends React.Component {
                             <label htmlFor="addValue">Value:</label>
                             <input type="text" className="form-control" id="addValue" placeholder="Enter Password"
                                    onChange={this.addValueChange}/>
-                            <button  className="btn btn-default" type="submit" id="addUser">Add</button>
+                            <button  className="btn btn-default" type="submit" id="addUser">Edit</button>
                         </div>
                     </form>
                 </div>
