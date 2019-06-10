@@ -1,5 +1,5 @@
 import makeApiCall from "../apiCall"
-import {takeEvery, all, takeLatest, put, call} from 'redux-saga/effects'
+import {takeEvery, put, call} from 'redux-saga/effects'
 
 function* addEntryWatcher() {
     yield takeEvery('ADD_ENTRY', addEntry)

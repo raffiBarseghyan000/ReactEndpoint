@@ -1,5 +1,5 @@
 import makeApiCall from "../apiCall"
-import {takeEvery, all, takeLatest, put, call} from 'redux-saga/effects'
+import {takeEvery, takeLatest, put, call} from 'redux-saga/effects'
 
 function* deleteUserActionWatcher() {
     yield takeEvery('DELETE_USER', deleteUser)

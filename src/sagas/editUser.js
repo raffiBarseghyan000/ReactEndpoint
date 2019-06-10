@@ -1,5 +1,5 @@
 import makeApiCall from "../apiCall"
-import {takeEvery, all, takeLatest, put, call} from 'redux-saga/effects'
+import {takeEvery, put, call} from 'redux-saga/effects'
 
 function* editUserWatcher() {
     yield takeEvery('EDIT_USER', editUser)
@@ -20,7 +20,7 @@ function* verifyUserWatcher() {
 function* verifyUser({username}) {
     const response = yield call(makeApiCall, 'GET', `/users/${username}`)
     if(response.success) {
-        yield put({type: 'VERIFY_USER_DONE'})
+        yield put({type: 'VERIFY_USER_DONE', firstName: response.result.firstName, lastName: response.result.lastName})
     }
     else {
         yield put({type: 'VERIFY_USER_FAIL', message: response.message})

@@ -8,7 +8,9 @@ const editUserState = (state = {}, action)=> {
         case 'VERIFY_USER_DONE':
             return {
                 ...state,
-                verified: true
+                verified: true,
+                lastName: action.lastName,
+                firstName: action.firstName
             }
         case 'VERIFY_USER_FALSE':
             return {

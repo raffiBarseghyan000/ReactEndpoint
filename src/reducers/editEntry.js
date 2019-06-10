@@ -8,7 +8,8 @@ const editEntryState = (state = {}, action)=> {
         case 'VERIFY_ENTRY_DONE':
             return {
                 ...state,
-                verified: true
+                verified: true,
+                value: action.value
             }
         case 'VERIFY_ENTRY_FALSE':
             return {

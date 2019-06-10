@@ -21,11 +21,11 @@ class EditUser extends React.Component {
     }
 
     addFirstNameChange(event) {
-        this.addFirstName = event.target.value
+        this.setState({firstName: event.target.value})
     }
 
     addLastNameChange(event) {
-        this.addLastName = event.target.value
+        this.setState({lastName: event.target.value})
     }
 
     addUserSubmit(event) {
@@ -37,17 +37,17 @@ class EditUser extends React.Component {
     renderPopUp() {
         Swal.fire({
             title: 'Success',
-            message: this.props.editUserResponse.edited,
+            text: "Done",
             type: 'success'
         }).then(()=> {
-            history.push('/main/users')
             this.setState({showPopUp: false})
+            history.push('/main/users')
         })
     }
 
     render() {
         let renderValue
-        {this.state.showPopUp && this.renderPopUp()}
+        this.state.showPopUp && this.renderPopUp()
         if (this.props.editUserResponse.verified) {
             renderValue = <div>
                 <h2>{this.props.match.params.username}</h2>
@@ -55,10 +55,10 @@ class EditUser extends React.Component {
                     <form id="userForm" onSubmit={this.addUserSubmit}>
                         <div className="form-group">
                             <label htmlFor="addFirstName">First Name:</label>
-                            <input type="text" className="form-control" id="addFirstName" placeholder="Enter First Name"
+                            <input type="text" className="form-control" id="addFirstName" placeholder={this.props.editUserResponse.firstName}
                                    onChange={this.addFirstNameChange}/>
                             <label htmlFor="addLastName">Last Name:</label>
-                            <input type="text" className="form-control" id="addLastName" placeholder="Enter Last Name"
+                            <input type="text" className="form-control" id="addLastName" placeholder={this.props.editUserResponse.lastName}
                                    onChange={this.addLastNameChange}/>
                             <button  className="btn btn-default" type="submit" id="addUser">Edit</button>
                         </div>

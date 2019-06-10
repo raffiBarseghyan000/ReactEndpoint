@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Entries from '../components/entries'
-import {deleteUser, addEntry} from "../actions"
+import {addEntry} from "../actions"
 
 const mapStateToProps = (state)=> ({
     addEntryResponse: state.addEntries

@@ -31,17 +31,17 @@ class EditUser extends React.Component {
     renderPopUp() {
         Swal.fire({
             title: 'Success',
-            message: this.props.editEntryResponse.edited,
+            text: this.props.editEntryResponse.edited,
             type: 'success'
         }).then(()=> {
-            history.push('/main/entries')
             this.setState({showPopUp: false})
+            history.push('/main/entries')
         })
     }
 
     render() {
         let renderValue
-        {this.state.showPopUp && this.renderPopUp()}
+        this.state.showPopUp && this.renderPopUp()
         if (this.props.editEntryResponse.verified) {
             renderValue = <div>
                 <h2>{this.props.match.params.entry}</h2>
@@ -49,7 +49,7 @@ class EditUser extends React.Component {
                     <form id="userForm" onSubmit={this.addEntrySubmit}>
                         <div className="form-group">
                             <label htmlFor="addValue">Value:</label>
-                            <input type="text" className="form-control" id="addValue" placeholder="Enter Password"
+                            <input type="text" className="form-control" id="addValue" placeholder={this.props.editEntryResponse.value}
                                    onChange={this.addValueChange}/>
                             <button  className="btn btn-default" type="submit" id="addUser">Edit</button>
                         </div>

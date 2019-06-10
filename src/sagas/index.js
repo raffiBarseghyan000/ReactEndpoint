@@ -1,4 +1,4 @@
-import {call, put, takeLatest, all} from 'redux-saga/effects'
+import {all} from 'redux-saga/effects'
 import {deleteEntryActionWatcher, entryActionWatcher} from "./displayEntries"
 import {userActionWatcher, deleteUserActionWatcher} from './displayUsers'
 import {addEntryWatcher} from './entries'
