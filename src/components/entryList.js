@@ -10,7 +10,8 @@ class EntryList extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1
+            initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1,
+            showPopUp: false
         }
         this.handlePageClick = this.handlePageClick.bind(this)
         this.addNewEntry = this.addNewEntry.bind(this)
@@ -27,35 +28,39 @@ class EntryList extends React.Component {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete entry',
-            onOpen: () => {
-                this.props.deleteEntry(entry)
-            }
+            confirmButtonText: 'Yes, delete entry'
         }).then((result) => {
             if (result.value) {
-                if (this.props.entryList.entryDelete) {
-                    Swal.fire(
-                        'Deleted',
-                        'Entry has been deleted',
-                        'success'
-                    ).then(() => {
-                        this.handlePageClick({selected: 0})
-                    })
-                } else {
-                    Swal.fire({
-                        title: 'Unable to deleted',
-                        text: this.props.entryList.message,
-                        type: 'error',
-                        confirmButtonText: 'OK'
-                    })
-                }
+                this.setState({showPopUp: true})
+                this.props.deleteEntry(entry)
             }
         })
     }
 
+    renderPopUp() {
+        debugger
+        if (this.props.entryList.entryDelete) {
+            Swal.fire(
+                'Deleted',
+                'Entry has been deleted',
+                'success'
+            ).then(() => {
+                this.handlePageClick({selected: 0})
+            })
+        } else {
+            Swal.fire({
+                title: 'Unable to deleted',
+                text: this.props.entryList.message,
+                type: 'error',
+                confirmButtonText: 'OK'
+            })
+        }
+        this.setState({showPopUp: false})
+    }
+
     renderEntryList() {
         let retArray = []
-        if(this.props.entryList.entryList.values.length) {
+        if (this.props.entryList.entryList.values.length) {
             this.props.entryList.entryList.values.map((elem, index) => {
                 return retArray.push(<tr key={elem.name}>
                     <td>
@@ -82,8 +87,7 @@ class EntryList extends React.Component {
                 </tr>)
             })
             retArray = <tbody>{retArray}</tbody>
-        }
-        else {
+        } else {
             retArray = <div>Nothing to display</div>
         }
         return retArray
@@ -93,7 +97,7 @@ class EntryList extends React.Component {
         let selected = data.selected
         let offset = Math.ceil(selected * this.props.showPerPage)
         this.props.updateEntryList(offset, this.props.showPerPage)
-        history.push(`/main/entries?page=${selected+1}`)
+        history.push(`/main/entries?page=${selected + 1}`)
     }
 
     addNewEntry() {
@@ -108,6 +112,7 @@ class EntryList extends React.Component {
     render() {
         return (
             <div>
+                {this.props.entryList.deletePending && this.state.showPopUp && this.renderPopUp()}
                 <button className="btn btn-secondary float-sm-right col-lg-2"
                         onClick={this.addNewEntry}>Add new entry
                 </button>

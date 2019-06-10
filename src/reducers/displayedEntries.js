@@ -1,4 +1,4 @@
-const displayedEntries = (state = {}, action) => {
+const displayedEntries = (state = {deletePending: false}, action) => {
     switch (action.type) {
         case 'REFRESH_ENTRY_LIST':
             return {
@@ -27,16 +27,23 @@ const displayedEntries = (state = {}, action) => {
                 ...state,
                 userCount: null
             }
+        case 'DELETE_ENTRY':
+            return {
+                ...state,
+                deletePending: true
+            }
         case 'ENTRY_DELETE_DONE':
             return {
                 ...state,
-                entryDelete: true
+                entryDelete: true,
+                deletePending: false
             }
         case 'ENTRY_DELETE_FAIL':
             return {
                 ...state,
                 entryDelete: false,
-                message: action.message
+                message: action.message,
+                deletePending: false
             }
         default:
             return state
