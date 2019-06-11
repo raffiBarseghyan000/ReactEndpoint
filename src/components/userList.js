@@ -12,6 +12,7 @@ class UserList extends React.Component {
         this.state = {
             initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1
         }
+        this.showPopUp = false
         this.handlePageClick = this.handlePageClick.bind(this)
         this.addNewUser = this.addNewUser.bind(this)
     }
@@ -32,6 +33,39 @@ class UserList extends React.Component {
         history.push(`${this.props.match.url}/edit/${username}`)
     }
 
+    // deleteUser(username) {
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         type: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: 'Yes, delete user',
+    //         onOpen: () => {
+    //             this.props.deleteUser(username)
+    //         }
+    //     }).then((result) => {
+    //         if (result.value) {
+    //             if (this.props.userList.userDelete) {
+    //                 Swal.fire(
+    //                     'Deleted',
+    //                     'User has been deleted',
+    //                     'success'
+    //                 ).then(() => {
+    //                     this.handlePageClick({selected: 0})
+    //                 })
+    //             } else {
+    //                 Swal.fire({
+    //                     title: 'Unable to deleted',
+    //                     text: this.props.userList.message,
+    //                     type: 'error',
+    //                     confirmButtonText: 'OK'
+    //                 })
+    //             }
+    //         }
+    //     })
+    // }
+
     deleteUser(username) {
         Swal.fire({
             title: 'Are you sure?',
@@ -39,30 +73,33 @@ class UserList extends React.Component {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete user',
-            onOpen: () => {
-                this.props.deleteUser(username)
-            }
+            confirmButtonText: 'Yes, delete user'
         }).then((result) => {
             if (result.value) {
-                if (this.props.userList.userDelete) {
-                    Swal.fire(
-                        'Deleted',
-                        'User has been deleted',
-                        'success'
-                    ).then(() => {
-                        this.handlePageClick({selected: 0})
-                    })
-                } else {
-                    Swal.fire({
-                        title: 'Unable to deleted',
-                        text: this.props.userList.message,
-                        type: 'error',
-                        confirmButtonText: 'OK'
-                    })
-                }
+                this.showPopUp = true
+                this.props.deleteUser(username)
             }
         })
+    }
+
+    renderPopUp() {
+        this.showPopUp = false
+        if (this.props.userList.userDelete) {
+            Swal.fire(
+                'Deleted',
+                'User has been deleted',
+                'success'
+            ).then(() => {
+                this.handlePageClick({selected: 0})
+            })
+        } else {
+            Swal.fire({
+                title: 'Unable to deleted',
+                text: this.props.userList.message,
+                type: 'error',
+                confirmButtonText: 'OK'
+            })
+        }
     }
 
     renderUserList() {
@@ -101,6 +138,7 @@ class UserList extends React.Component {
     render() {
         return (
             <div className="pagination_parent">
+                {this.props.userList.deletePending && this.showPopUp && this.renderPopUp()}
                 <button className="btn btn-secondary float-sm-right col-lg-2" onClick={this.addNewUser}>Add new user
                 </button>
                 <table className="table table-bordered">

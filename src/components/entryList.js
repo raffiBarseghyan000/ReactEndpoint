@@ -11,8 +11,8 @@ class EntryList extends React.Component {
         super(props)
         this.state = {
             initialPage: parseInt(queryString.parse(this.props.location.search).page) || 1,
-            showPopUp: false
         }
+        this.showPopUp = false
         this.handlePageClick = this.handlePageClick.bind(this)
         this.addNewEntry = this.addNewEntry.bind(this)
     }
@@ -31,14 +31,14 @@ class EntryList extends React.Component {
             confirmButtonText: 'Yes, delete entry'
         }).then((result) => {
             if (result.value) {
-                this.setState({showPopUp: true})
+                this.showPopUp = true
                 this.props.deleteEntry(entry)
             }
         })
     }
 
     renderPopUp() {
-        debugger
+        this.showPopUp = false
         if (this.props.entryList.entryDelete) {
             Swal.fire(
                 'Deleted',
@@ -55,7 +55,6 @@ class EntryList extends React.Component {
                 confirmButtonText: 'OK'
             })
         }
-        this.setState({showPopUp: false})
     }
 
     renderEntryList() {
@@ -112,7 +111,7 @@ class EntryList extends React.Component {
     render() {
         return (
             <div>
-                {this.props.entryList.deletePending && this.state.showPopUp && this.renderPopUp()}
+                {this.props.entryList.deletePending && this.showPopUp && this.renderPopUp()}
                 <button className="btn btn-secondary float-sm-right col-lg-2"
                         onClick={this.addNewEntry}>Add new entry
                 </button>

@@ -30,20 +30,20 @@ const displayedEntries = (state = {deletePending: false}, action) => {
         case 'DELETE_ENTRY':
             return {
                 ...state,
-                deletePending: true
+                deletePending: false
             }
         case 'ENTRY_DELETE_DONE':
             return {
                 ...state,
                 entryDelete: true,
-                deletePending: false
+                deletePending: true
             }
         case 'ENTRY_DELETE_FAIL':
             return {
                 ...state,
                 entryDelete: false,
                 message: action.message,
-                deletePending: false
+                deletePending: true
             }
         default:
             return state
